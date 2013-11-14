@@ -3,29 +3,16 @@
 # RBI Baseball 3 - ROM Modifier
 # Chet Collins
 
-import sys, argparse
+import sys,PlayerNames
 
-# parse the command line arguments
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-i', dest='inputFile')
-    parser.add_argument('-o', dest='outputFile')
-    args = parser.parse_args()
-    return args
-
-
-def search(text):
-
-
-    player_names = {}
-
+game_file = "rbi3_game_file"
 
 def main():
-    file_object = parse_args()
-    with open(file_object.inputFile, "r+") as my_file:
+    # open the game file
+    with open(game_file, "r+") as my_file:
         data = my_file.read()
-    search(data)
 
+    names = PlayerNames()
 
 if __name__ == "__main__":
     main(sys.argv)
