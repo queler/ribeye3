@@ -1,35 +1,40 @@
 #!/usr/bin/python
+# Two way map to relate alphanumeric characters and hex values
 
-"""
-Dictionary containing the dictionary of hex value to alphanumeric character translation
-key: hex value
-value: alphanumeric character
-"""
+class PlayerNames(dict):
+    filename = "player_name_map.txt"
 
-filename = "player_name_map.txt"
-
-class PlayerNames:
     def __init__(self):
-        self.dict = {}
+        super().__init__()
         # load dictionary values from file
-        with open(filename) as my_file:
+        with open(self.filename) as my_file:
             for line in my_file:
                 key, value = line.partition("\t")[::2]
-                self.dict[str(key)] = value.strip()
+                self.__setitem__(str(key).strip(), str(value).strip())
 
-    # Given a hex string, return the string in alphanumeric form
-    def search(self,hex_string):
+    def __len__(self):
+        return dict.__len__(self)/2
+
+    # two way dictionary function
+    def __setitem__(self, key, value):
+        dict.__setitem__(self, key, value)
+        dict.__setitem__(self, value, key)
+
+    # Given a hex string, return the alphanumeric equivalent
+    def hex2alpha(self, hex_string):
         name = ""
         for (hex_part1,hex_part2) in zip(hex_string[0::2],hex_string[1::2]):
             hex_part1 += hex_part2
-            name += self.dict[hex_part1]
-
+            name += self.get(hex_part1)
         return name
 
-def main():
-    names = PlayerNames()
-    print(names.dict.__str__())
-    print(names.search('000A0B0C0D0E42312142'))
+    # Given an alpha string, return the hex equivalent
+    def alpha2hex(self, alpha_string):
+        name = ""
+        for char in alpha_string:
+            name += self.get(char)
+        return name
 
-main()
+
+
 
