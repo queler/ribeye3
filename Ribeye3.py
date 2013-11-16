@@ -4,8 +4,8 @@
 # Chet Collins
 
 import sys,PlayerNames
-
 game_file = "rbi3_game_file.txt"
+
 
 def main():
     # open the game file

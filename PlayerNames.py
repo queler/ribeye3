@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # Two way map to relate alphanumeric characters and hex values
 
+
 class PlayerNames(dict):
     filename = "player_name_map.txt"
 
