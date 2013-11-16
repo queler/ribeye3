@@ -1,8 +1,7 @@
-#!/usr/bin/python
 # a representation of a batter from RBI3
 
 
-class Batter():
+class Batter(object):
     def __init__(self,lineup_pos,name,stance,batting_avg,home_runs,contact,power,speed,position,switch):
         self.lineup_pos = lineup_pos
         self.name = name
@@ -17,16 +16,17 @@ class Batter():
 
     # a string representation of a batter
     def __str__(self):
-        print(self.lineup_pos + '\t'+
+        return(str(self.lineup_pos) + '\t'+
             self.name + '\t'+
-            self.stance + '\t'+
-            self.batting_avg + '\t'+
-            self.home_runs + '\t'+
-            self.contact + '\t'+
-            self.power + '\t'+
-            self.speed + '\t'+
-            self.position + '\t'+
-            self.switch + '\n')
+            str(self.stance) + '\t'+
+            str(self.batting_avg) + '\t'+
+            str(self.home_runs) + '\t'+
+            str(self.contact) + '\t'+
+            str(self.power) + '\t'+
+            str(self.speed) + '\t'+
+            str(self.position) + '\t'+
+            str(self.switch) + '\n')
+
 
 
 

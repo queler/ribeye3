@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # Two way map to relate alphanumeric characters and hex values
 
 

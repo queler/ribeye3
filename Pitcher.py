@@ -1,8 +1,7 @@
-#!/usr/bin/python
 # a representation of a pitcher from RBI3
 
 
-class Pitcher():
+class Pitcher(object):
     def __init__(self,staff_pos,name,sinker_val,style,sink_spd,reg_spd,fast_spd,left_curve,right_curve,stamina,cpu_field1,cpu_field2):
         self.staff_pos = staff_pos
         self.name = name
@@ -19,15 +18,15 @@ class Pitcher():
 
     # a string representation of a pitcher
     def __str__(self):
-        print(self.staff_pos + '\t'+
+        return(str(self.staff_pos) + '\t'+
             self.name + '\t'+
-            self.sinker_val + '\t'+
-            self.style + '\t'+
-            self.sink_spd + '\t'+
-            self.reg_spd + '\t'+
-            self.fast_spd + '\t'+
-            self.left_curve + '\t'+
-            self.right_curve + '\t'+
-            self.stamina + '\t'+
-            self.cpu_field1 + '\t'+
-            self.cpu_field2 + '\n')
+            str(self.sinker_val) + '\t'+
+            str(self.style) + '\t'+
+            str(self.sink_spd) + '\t'+
+            str(self.reg_spd) + '\t'+
+            str(self.fast_spd) + '\t'+
+            str(self.left_curve) + '\t'+
+            str(self.right_curve) + '\t'+
+            str(self.stamina) + '\t'+
+            str(self.cpu_field1) + '\t'+
+            str(self.cpu_field2) + '\n')
