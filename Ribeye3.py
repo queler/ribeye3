@@ -3,11 +3,10 @@
 # RBI Baseball 3 - ROM Modifier
 # Chet Collins
 
-import sys
-import PlayerNames
-import Pitcher
-import Batter
-import GameEditor
+from PlayerNames import *
+from Pitcher import *
+from Batter import *
+from GameEditor import *
 game_file = "rbi3_game_file.txt"
 
 
@@ -16,18 +15,20 @@ def main():
     with open(game_file, "r+") as my_file:
         data = my_file.read()
 
-    names = PlayerNames.PlayerNames()
-    print(names)
-    print(names.hex2alpha('000A0B0C0D0E4231214242'))
-    print(names.alpha2hex('McGwire'))
+    names = PlayerNames()
+    #print(names)
+    #print(names.hex2alpha('000A0B0C0D0E4231214242'))
+    #print(names.alpha2hex('McGwire'))
 
-    player1 = Batter.Batter(0,'McGwire',0,300,45,5,100,100,0,0)
-    player2 = Pitcher.Pitcher(2,'Clemens',100,1,10,10,10,10,10,60,10,10)
-    print(player1)
-    print(player2)
+    #player1 = Batter(32,0,'McGwire',0,300,45,5,100,100,0,0)
+    #player2 = Pitcher(32,2,'Clemens',100,1,10,10,10,10,10,60,10,10)
+    #print(player1)
+    #print(player2)
 
-    editor = GameEditor.GameEditor(game_file)
-    print(editor)
+    editor = GameEditor(game_file)
+    #print(editor)
+
+    editor.load_players()
 
 
 

@@ -25,7 +25,7 @@ class PlayerNames(dict):
         name = ""
         for (hex_part1,hex_part2) in zip(hex_string[0::2],hex_string[1::2]):
             hex_part1 += hex_part2
-            name += self.get(hex_part1)
+            name += str(self.get(hex_part1))
         return name
 
     # Given an alpha string, return the hex equivalent

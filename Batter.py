@@ -2,7 +2,8 @@
 
 
 class Batter(object):
-    def __init__(self,lineup_pos,name,stance,batting_avg,home_runs,contact,power,speed,position,switch):
+    def __init__(self,offset,lineup_pos,name,stance,batting_avg,home_runs,contact,power,speed,position,switch):
+        self.offset = offset
         self.lineup_pos = lineup_pos
         self.name = name
         self.stance = stance
