@@ -6,7 +6,7 @@ from Batter import *
 from Pitcher import *
 
 
-class GameEditor(object):
+class PlayerEditor(object):
     # character to hex map for PlayerNames
     names = PlayerNames()
     batters = {}
@@ -17,7 +17,7 @@ class GameEditor(object):
         with open(filename, "r+") as my_file:
             self.data = my_file.read()
 
-    # string representation of the GameEditor object
+    # string representation of the PlayerEditor object
     def __str__(self):
         return self.data
 
@@ -26,9 +26,8 @@ class GameEditor(object):
         # first block of batters
         for offset in range(v.BATTER_S1,v.BATTER_E1,v.PLAYER_LEN):
             data = self.data[offset:(offset+v.PLAYER_LEN)]
-            print(data)
             # print(self.create_batter(data,offset))
-            print(self.batter_convert(self.create_batter(data,offset)))
+            #print(self.batter_convert(self.create_batter(data,offset)))
             self.batters[offset] = self.create_batter(data,offset)
 
         # second block of batters
@@ -41,6 +40,7 @@ class GameEditor(object):
         for offset in range(v.PITCHER_S1,v.PITCHER_E1,v.PLAYER_LEN):
             data = self.data[offset:(offset+v.PLAYER_LEN)]
             #print(self.create_pitcher(data,offset))
+            #print(self.pitcher_convert(self.create_pitcher(data,offset)))
             self.pitchers[offset] = self.create_pitcher(data,offset)
 
         # second block of pitchers
@@ -60,26 +60,39 @@ class GameEditor(object):
     def hex_to_int(self,data,start,end):
         return int(data[start:end],v.HEX_BASE)
 
-    def hex_format(self,value):
-        return str(hex(value)).lstrip('0x').zfill(2).upper()
+    def hex_format(self,value,precision):
+        return str(hex(value)).lstrip('0x').zfill(precision).upper()
 
     def batter_convert(self, batter):
-        return self.hex_format(batter.lineup_pos) + \
-        str(self.names.alpha_to_hex(batter.name[:6])) + \
-        self.hex_format(batter.stance) + \
-        self.hex_format(batter.batting_avg-111) + \
-        self.hex_format(batter.home_runs) + \
-        self.hex_format(batter.contact) + \
-        self.hex_format(batter.power1) + \
-        self.hex_format(batter.power2) + \
-        self.hex_format(batter.speed) + \
-        self.hex_format(batter.position) + \
-        self.hex_format(batter.switch) + \
-        str(self.names.alpha_to_hex(batter.name[6:]))
+        return self.hex_format(batter.lineup_pos,2) + \
+        self.names.alpha_to_hex(batter.name[:6]) + \
+        self.hex_format(batter.stance,2) + \
+        self.hex_format(batter.batting_avg-111,2) + \
+        self.hex_format(batter.home_runs,2) + \
+        self.hex_format(batter.contact,2) + \
+        self.hex_format(batter.power1,2) + \
+        self.hex_format(batter.power2,2) + \
+        self.hex_format(batter.speed,2) + \
+        self.hex_format(batter.position,2) + \
+        self.hex_format(batter.switch,2) + \
+        self.names.alpha_to_hex(batter.name[6:])
 
 
     def pitcher_convert(self, pitcher):
-        return str(hex(pitcher.staff_pos))
+        return self.hex_format(pitcher.staff_pos,2) + \
+        self.names.alpha_to_hex(pitcher.name[:6]) + \
+        self.hex_format(pitcher.sinker_val,1) + \
+        self.hex_format(pitcher.style,1) + \
+        self.hex_format(pitcher.mystery,2) + \
+        self.hex_format(pitcher.sink_spd,2) + \
+        self.hex_format(pitcher.reg_spd,2) + \
+        self.hex_format(pitcher.fast_spd,2) + \
+        self.hex_format(pitcher.left_curve,1) + \
+        self.hex_format(pitcher.right_curve,1)+ \
+        self.hex_format(pitcher.stamina,2) + \
+        self.hex_format(pitcher.cpu_field1,2) + \
+        self.hex_format(pitcher.cpu_field2,2)+ \
+        self.names.alpha_to_hex(pitcher.name[6:])
 
 
     def create_batter(self,data,offset):
@@ -102,6 +115,7 @@ class GameEditor(object):
         name = self.names.hex_to_alpha(data[2:14]+data[32:36])
         sinker_val = self.hex_to_int(data,14,15)
         style = self.hex_to_int(data,15,16)
+        mystery = self.hex_to_int(data,16,18)
         sink_spd = self.hex_to_int(data,18,20)
         reg_spd = self.hex_to_int(data,20,22)
         fast_spd = self.hex_to_int(data,22,24)
@@ -110,4 +124,4 @@ class GameEditor(object):
         stamina = self.hex_to_int(data,26,28)
         cpu_field1 = self.hex_to_int(data,28,30)
         cpu_field2 = self.hex_to_int(data,30,32)
-        return Pitcher(offset,staff_pos,name,sinker_val,style,sink_spd,reg_spd,fast_spd,left_curve,right_curve,stamina,cpu_field1,cpu_field2)
+        return Pitcher(offset,staff_pos,name,sinker_val,style,mystery,sink_spd,reg_spd,fast_spd,left_curve,right_curve,stamina,cpu_field1,cpu_field2)

@@ -6,7 +6,7 @@
 from PlayerNames import *
 from Pitcher import *
 from Batter import *
-from GameEditor import *
+from PlayerEditor import *
 game_file = "rbi3_game_file.txt"
 
 
@@ -25,7 +25,7 @@ def main():
     #print(player1)
     #print(player2)
 
-    editor = GameEditor(game_file)
+    editor = PlayerEditor(game_file)
     #print(editor)
 
     editor.load_players()
