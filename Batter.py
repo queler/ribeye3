@@ -1,6 +1,9 @@
+# RBI Baseball 3 - ROM Modifier
+# Chet Collins
+# November 2013
+
 # a representation of a batter from RBI3
 
-import math
 
 class Batter(object):
     def __init__(self,offset,lineup_pos,name,stance,batting_avg,home_runs,contact,power1,power2,speed,position,switch):

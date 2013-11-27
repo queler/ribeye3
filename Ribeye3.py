@@ -1,11 +1,7 @@
-#!/usr/bin/python
-
 # RBI Baseball 3 - ROM Modifier
 # Chet Collins
+# November 2013
 
-from PlayerNames import *
-from Pitcher import *
-from Batter import *
 from PlayerEditor import *
 game_file = "rbi3_game_file.txt"
 

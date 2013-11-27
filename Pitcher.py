@@ -1,3 +1,7 @@
+# RBI Baseball 3 - ROM Modifier
+# Chet Collins
+# November 2013
+
 # a representation of a pitcher from RBI3
 
 

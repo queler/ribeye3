@@ -1,3 +1,7 @@
+# RBI Baseball 3 - ROM Modifier
+# Chet Collins
+# November 2013
+
 # Two way map to relate alphanumeric characters and hex values
 
 
