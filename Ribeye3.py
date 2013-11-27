@@ -29,6 +29,7 @@ def main():
     #print(editor)
 
     editor.load_players()
+    #editor.display_players()
 
 
 

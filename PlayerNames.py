@@ -21,18 +21,23 @@ class PlayerNames(dict):
         dict.__setitem__(self, value, key)
 
     # Given a hex string, return the alphanumeric equivalent
-    def hex2alpha(self, hex_string):
+    def hex_to_alpha(self, hex_string):
         name = ""
         for (hex_part1,hex_part2) in zip(hex_string[0::2],hex_string[1::2]):
             hex_part1 += hex_part2
+            if hex_part1 == "24":
+                name += " "
             name += str(self.get(hex_part1))
         return name
 
     # Given an alpha string, return the hex equivalent
-    def alpha2hex(self, alpha_string):
+    def alpha_to_hex(self, alpha_string):
         name = ""
         for char in alpha_string:
-            name += self.get(char)
+            if char != " ":
+                name += self.get(char)
+            else:
+                name += "24"
         return name
 
 

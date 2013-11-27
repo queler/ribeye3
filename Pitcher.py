@@ -19,7 +19,8 @@ class Pitcher(object):
 
     # a string representation of a pitcher
     def __str__(self):
-        return(str(self.staff_pos) + '\t'+
+        return(str(hex(self.offset//2)) + '\t'+
+            str(self.staff_pos) + '\t'+
             self.name + '\t'+
             str(self.sinker_val) + '\t'+
             str(self.style) + '\t'+
