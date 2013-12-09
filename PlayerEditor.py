@@ -2,67 +2,70 @@
 # Chet Collins
 # November 2013
 
-# provides the ability to convert players to and from their hex strings, and update players on the ROM file
 
 import Values as v
 from PlayerNames import *
 from Batter import *
 from Pitcher import *
+from FileProcessor import *
 
 
 class PlayerEditor(object):
+    """ Provides the ability to convert players to and from their hex strings, and update players on the ROM file
+    """
     names = PlayerNames()
+    file_process = FileProcessor()
     batters = {}
     pitchers = {}
 
     def __init__(self,filename):
-        # open the ROM file
         with open(filename, "r+") as my_file:
             self.data = my_file.read()
 
-    # string representation of the PlayerEditor object
     def __str__(self):
+        """
+        @return: a string containing the ROM file
+        """
         return self.data
-    
-    # determine if line contains valid data
+
     def invalid_entry(self,data):
+        """
+        Test for a valid entry
+        @param data: the entry to be tested
+        @return: if line contains valid data
+        """
         return int(data,v.HEX_BASE) == 0
 
-    # loads all pitchers from ROM file
     def get_pitcher_block(self,start,end):
+        """
+        Load all Pitchers from ROM file
+        @param start: start address
+        @param end: end address
+        @return:
+        """
         for offset in range(start,end,v.PLAYER_LEN):
             data = self.data[offset:(offset+v.PLAYER_LEN)]
             if not self.invalid_entry(data):
                 self.pitchers[offset] = self.create_pitcher(data,offset)
-                print(self.create_pitcher(data,offset))
-                print(data)
-                print(self.batter_convert(self.create_batter(data,offset)))
+                print(self.processor.convert_csv(str(self.pitchers[offset])))
 
-    # loads all batters from ROM file
     def get_batter_block(self,start,end):
+        """
+        Load all Batters from ROM file
+        @param start: start address
+        @param end: end address
+        @return:
+        """
         for offset in range(start,end,v.PLAYER_LEN):
             data = self.data[offset:(offset+v.PLAYER_LEN)]
             self.batters[offset] = self.create_batter(data,offset)
-            print(self.create_batter(data,offset))
-            print(data)
-            print(self.pitcher_convert(self.create_pitcher(data,offset)))
+            print(self.processor.convert_csv(str(self.batters[offset])))
 
-    # testing that a player can be created and overwritten in the ROM file
-    def test_update(self):
-        data = self.data[v.BATTER_S1:(v.BATTER_S1+v.PLAYER_LEN)]
-        batter1 = self.create_batter(data,v.BATTER_S1)
-        batter1.name = "ARod    "
-        batter1.batting_avg = 350
-        batter1.home_runs = 50
-        batter1.speed = 100
-
-        self.update_player(batter1)
-        print(batter1)
-        data2 = self.data[v.BATTER_S1:(v.BATTER_S1+v.PLAYER_LEN)]
-        print(self.create_batter(data2,v.BATTER_S1))
-
-    # load players from their defined memory addresses
     def load_players(self):
+        """
+        Load players from their defined memory addresses
+        @return:
+        """
         # loading batters
         self.get_batter_block(v.BATTER_S1,v.BATTER_E1)
         self.get_batter_block(v.BATTER_S2,v.BATTER_E2)
@@ -71,22 +74,42 @@ class PlayerEditor(object):
         self.get_pitcher_block(v.PITCHER_S1,v.PITCHER_E1)
         self.get_pitcher_block(v.PITCHER_S2,v.PITCHER_E2)
 
-        self.test_update()
 
-    # convert a hex value to an integer
+    #
     def hex_to_int(self,data,start,end):
+        """
+        Convert a hex value to an integer
+        @param data: the hex string containing data
+        @param start: start index
+        @param end: end index
+        @return: the integer value
+        """
         return int(data[start:end],v.HEX_BASE)
 
-    # format a hex string to conform to ROM file standards
     def hex_format(self,value,precision):
+        """
+        format a hex string to conform to ROM file standards
+        @param value: hex string to be formatted
+        @param precision: number of decimal places
+        @return: a formatted hex string
+        """
         return str(hex(value)).lstrip('0x').zfill(precision).upper()
 
     def replace_player(self,string,offset):
+        """
+        @param string: Player to be replaced in the ROM file
+        @param offset: address within the ROM file
+        @return:
+        """
         self.data = self.data[0:offset] + string + self.data[offset+v.PLAYER_LEN:]
 
 
-    # update a player and write to ROM file
     def update_player(self,player):
+        """
+        Update a player and write to ROM file
+        @param player: Player to be updated
+        @return:
+        """
         update_string = ""
         if isinstance(player,Batter):
             #print('Batter found!')
@@ -98,8 +121,12 @@ class PlayerEditor(object):
         self.replace_player(update_string,player.offset)
 
 
-    # convert a batter to an equivalent hex string
     def batter_convert(self, batter):
+        """
+        Convert a batter to an equivalent hex string
+        @param batter: Batter to convert
+        @return: a Batter converted from hex
+        """
         return self.hex_format(batter.lineup_pos,2) + \
         self.names.alpha_to_hex(batter.name[:6]) + \
         self.hex_format(batter.stance,2) + \
@@ -113,8 +140,12 @@ class PlayerEditor(object):
         self.hex_format(batter.switch,2) + \
         self.names.alpha_to_hex(batter.name[6:])
 
-    # convert a pitcher to an equivalent hex string
     def pitcher_convert(self, pitcher):
+        """ 
+        Convert a Pitcher to an equivalent hex string
+        @param pitcher: Pitcher to convert
+        @return: a Pitcher converted from hex
+        """
         return self.hex_format(pitcher.staff_pos,2) + \
         self.names.alpha_to_hex(pitcher.name[:6]) + \
         self.hex_format(pitcher.sinker_val,1) + \
@@ -131,8 +162,13 @@ class PlayerEditor(object):
         self.names.alpha_to_hex(pitcher.name[6:])
 
 
-    # create a batter from ROM file
     def create_batter(self,data,offset):
+        """ 
+        create a Batter from ROM file
+        @param data: hex Batter data
+        @param offset: starting address in ROM file
+        @return: a new Batter 
+        """
         lineup_pos = self.hex_to_int(data,0,2)
         name = self.names.hex_to_alpha(data[2:14]+data[32:36])
         stance = self.hex_to_int(data,14,16)
@@ -146,8 +182,13 @@ class PlayerEditor(object):
         switch = self.hex_to_int(data,30,32)
         return Batter(offset,lineup_pos,name,stance,batting_avg,home_runs,contact,power1, power2,speed,position,switch)
 
-    # create a pitcher from ROM file
     def create_pitcher(self,data,offset):
+        """ 
+        create a Pitcher from ROM file
+        @param data: hex Pitcher data
+        @param offset: starting address in ROM file
+        @return: a new Pitcher 
+        """
         staff_pos = self.hex_to_int(data,0,2)
         name = self.names.hex_to_alpha(data[2:14]+data[32:36])
         sinker_val = self.hex_to_int(data,14,15)

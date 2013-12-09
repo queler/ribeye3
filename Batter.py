@@ -2,10 +2,10 @@
 # Chet Collins
 # November 2013
 
-# a representation of a batter from RBI3
-
 
 class Batter(object):
+    """ A representation of an RBI3 Batter
+    """
     def __init__(self,offset,lineup_pos,name,stance,batting_avg,home_runs,contact,power1,power2,speed,position,switch):
         self.offset = offset
         self.lineup_pos = lineup_pos
@@ -21,8 +21,10 @@ class Batter(object):
         self.position = position
         self.switch = switch
 
-    # a string representation of a batter
     def __str__(self):
+        """
+        @return: a string representation of a batter
+        """
         return(str(hex(self.offset//2)) + '\t'+
             str(self.lineup_pos) + '\t'+
             self.name + '\t'+
@@ -33,7 +35,7 @@ class Batter(object):
             str(self.power) + '\t'+
             str(self.speed) + '\t'+
             str(self.position) + '\t'+
-            str(self.switch) + '\n')
+            str(self.switch))
 
 
 

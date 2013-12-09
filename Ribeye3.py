@@ -2,6 +2,9 @@
 # Chet Collins
 # November 2013
 
+""" Main program
+"""
+
 from PlayerEditor import *
 game_file = "rbi3_game_file.txt"
 
