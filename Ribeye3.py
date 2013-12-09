@@ -6,7 +6,7 @@
 """
 
 from PlayerEditor import *
-game_file = "rbi3_game_file.txt"
+game_file = "rom-files/rbi3_game_file.txt"
 
 
 def main():

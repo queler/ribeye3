@@ -19,7 +19,7 @@ from Team import *
 class TeamsData(object):
     """ Contains data parameters for all RBI3 teams
     """
-    filename = "teams.txt"
+    filename = "data_files/teams.txt"
     values = {}
 
     def __init__(self):
