@@ -8,6 +8,7 @@ from PlayerNames import *
 from Batter import *
 from Pitcher import *
 from FileProcessor import *
+from TeamsData import *
 
 
 class PlayerEditor(object):
@@ -17,6 +18,7 @@ class PlayerEditor(object):
     file_process = FileProcessor()
     batters = {}
     pitchers = {}
+    teams_data = TeamsData()
 
     def __init__(self,filename):
         with open(filename, "r+") as my_file:
@@ -47,7 +49,7 @@ class PlayerEditor(object):
             data = self.data[offset:(offset+v.PLAYER_LEN)]
             if not self.invalid_entry(data):
                 self.pitchers[offset] = self.create_pitcher(data,offset)
-                print(self.processor.convert_csv(str(self.pitchers[offset])))
+                print(self.file_process.convert_csv(str(self.pitchers[offset])))
 
     def get_batter_block(self,start,end):
         """
@@ -59,7 +61,7 @@ class PlayerEditor(object):
         for offset in range(start,end,v.PLAYER_LEN):
             data = self.data[offset:(offset+v.PLAYER_LEN)]
             self.batters[offset] = self.create_batter(data,offset)
-            print(self.processor.convert_csv(str(self.batters[offset])))
+            print(self.file_process.convert_csv(str(self.batters[offset])))
 
     def load_players(self):
         """
@@ -74,8 +76,10 @@ class PlayerEditor(object):
         self.get_pitcher_block(v.PITCHER_S1,v.PITCHER_E1)
         self.get_pitcher_block(v.PITCHER_S2,v.PITCHER_E2)
 
+        # print teams data
+        print(self.teams_data)
 
-    #
+
     def hex_to_int(self,data,start,end):
         """
         Convert a hex value to an integer

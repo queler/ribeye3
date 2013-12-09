@@ -15,7 +15,7 @@ class FileProcessor():
         @param player: A Batter or Pitcher
         @return: a csv-style string representing a Player
         """
-        return ','.join(player.split('\t'))
+        return ",".join(player.split('\t'))
 
     def write_output(self,data):
         """

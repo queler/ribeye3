@@ -6,7 +6,8 @@
 class Pitcher(object):
     """  A representation of a Pitcher from RBI3
     """
-    def __init__(self,offset,staff_pos,name,sinker_val,style,mystery,sink_spd,reg_spd,fast_spd,left_curve,right_curve,stamina,cpu_field1,cpu_field2):
+    def __init__(self,offset,staff_pos,name,sinker_val,style,mystery,sink_spd,reg_spd,fast_spd,
+                 left_curve,right_curve,stamina,cpu_field1,cpu_field2):
         self.offset = offset
         self.staff_pos = staff_pos
         self.name = name

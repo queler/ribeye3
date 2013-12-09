@@ -6,7 +6,8 @@
 class Batter(object):
     """ A representation of an RBI3 Batter
     """
-    def __init__(self,offset,lineup_pos,name,stance,batting_avg,home_runs,contact,power1,power2,speed,position,switch):
+    def __init__(self,offset,lineup_pos,name,stance,batting_avg,home_runs,
+                 contact,power1,power2,speed,position,switch):
         self.offset = offset
         self.lineup_pos = lineup_pos
         self.name = name
