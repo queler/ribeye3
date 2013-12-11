@@ -38,7 +38,7 @@ class Batter(object):
 
 def testbatter():
     """
-    test function. Creates instance of batter, prints to screen
+    test function. Creates instance of batter
     @return: NULL
     """
     batter = Batter(8, 8, "Bill", 8, 8, 8, 8, 8, 8, 8, 8, 8)
