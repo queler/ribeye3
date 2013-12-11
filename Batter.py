@@ -36,7 +36,7 @@ class Batter(object):
             str(self.power) + '\t'+
             str(self.speed) + '\t'+
             str(self.position) + '\t'+
-            str(self.switch))
+            str(self.switch)) + '\n'
 
 
 

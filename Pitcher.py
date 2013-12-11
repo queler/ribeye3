@@ -41,4 +41,4 @@ class Pitcher(object):
             str(self.right_curve) + '\t'+
             str(self.stamina) + '\t'+
             str(self.cpu_field1) + '\t'+
-            str(self.cpu_field2))
+            str(self.cpu_field2)) + '\n'
