@@ -18,9 +18,41 @@ class PlayerEditor():
 
     def __str__(self):
         """
-        @return: a string containing the ROM file
+        @return: list of all Pitchers and Batters
         """
-        return self.data
+        return self.display_pitchers() + self.display_batters()
+
+    def display_pitchers(self):
+        """
+        @return: A list of Pitchers in order
+        """
+        data = ""
+        i = v.PITCHER_S1
+        while i < v.PITCHER_E1:
+            if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(self.data,i)):
+                data += str(self.players.pitchers[i])
+            i += v.PLAYER_LEN
+        i = v.PITCHER_S2
+        while i < v.PITCHER_E2:
+            if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(self.data,i)):
+                data += str(self.players.pitchers[i])
+            i += v.PLAYER_LEN
+        return data
+
+    def display_batters(self):
+        """
+        @return: A list of Batters in order
+        """
+        data = ""
+        i = v.BATTER_S1
+        while i < v.BATTER_E1:
+            data += str(self.players.batters[i])
+            i += v.PLAYER_LEN
+        i = v.BATTER_S2
+        while i < v.BATTER_E2:
+            data += str(self.players.batters[i])
+            i += v.PLAYER_LEN
+        return data
 
     def replace_player(self,string,offset):
         """
@@ -44,7 +76,6 @@ class PlayerEditor():
         elif isinstance(player,Pitcher):
             update_string = PlayerEditHelper.pitcher_convert(player)
             #print('Pitcher found!')
-
         self.replace_player(update_string,player.offset)
 
 

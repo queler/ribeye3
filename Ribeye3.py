@@ -26,7 +26,7 @@ def main():
 
     editor = PlayerEditor(game_file)
     #print(editor)
-    print(str(editor.players))
+    print(str(editor))
     #editor.load_players()
     #editor.display_players()
 

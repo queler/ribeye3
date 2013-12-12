@@ -121,3 +121,11 @@ class PlayerEditHelper():
         @return: if line contains valid data
         """
         return int(data,v.HEX_BASE) == 0
+
+    def get_substring(self,data,offset):
+        """
+        @param data: the source from which to extract the substring
+        @param offset: the starting offset
+        @return: a substring containing a player
+        """
+        return data[offset:offset+v.PLAYER_LEN]
