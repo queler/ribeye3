@@ -43,9 +43,9 @@ class PlayersData():
         # loading batters
         self.get_batter_block(data, v.BATTER_E1, v.BATTER_S1)
         self.get_batter_block(data, v.BATTER_E2, v.BATTER_S2)
-        print("Batters: "+str(len(self.batters)))
+        #print("Batters: "+str(len(self.batters)))
 
         # loading pitchers
         self.get_pitcher_block(data,v.PITCHER_S1,v.PITCHER_E1)
         self.get_pitcher_block(data,v.PITCHER_S2,v.PITCHER_E2)
-        print("Pitchers: "+str(len(self.pitchers)))
+        #print("Pitchers: "+str(len(self.pitchers)))

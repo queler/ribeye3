@@ -28,17 +28,17 @@ class Pitcher(object):
         """
         @return: a string representation of a pitcher
         """
-        return(str(hex(self.offset//2)) + '\t'+
-            str(self.staff_pos) + '\t'+
-            self.name + '\t'+
-            str(self.sinker_val) + '\t'+
-            str(self.style) + '\t'+
-            str(self.mystery) + '\t'+
-            str(self.sink_spd) + '\t'+
-            str(self.reg_spd) + '\t'+
-            str(self.fast_spd) + '\t'+
-            str(self.left_curve) + '\t'+
-            str(self.right_curve) + '\t'+
-            str(self.stamina) + '\t'+
-            str(self.cpu_field1) + '\t'+
-            str(self.cpu_field2)) + '\n'
+        #(str(hex(self.offset//2)) + '\t'+
+        return str(self.staff_pos) + '\t'+ \
+            self.name + '\t'+ \
+            str(self.sinker_val) + '\t'+ \
+            str(self.style) + '\t'+ \
+            str(self.mystery) + '\t'+ \
+            str(self.sink_spd) + '\t'+ \
+            str(self.reg_spd) + '\t'+ \
+            str(self.fast_spd) + '\t'+ \
+            str(self.left_curve) + '\t'+ \
+            str(self.right_curve) + '\t'+ \
+            str(self.stamina) + '\t'+ \
+            str(self.cpu_field1) + '\t'+ \
+            str(self.cpu_field2)+ '\n'

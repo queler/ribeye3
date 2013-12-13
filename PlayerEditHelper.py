@@ -6,11 +6,12 @@ import Values as v
 from Batter import *
 from Pitcher import *
 from PlayerNames import *
+from TeamsData import *
+from FileProcessor import *
 
 class PlayerEditHelper():
     """ Player editing helper functions
     """
-
     def batter_convert(self, batter):
         """
         Convert a batter to an equivalent hex string
@@ -94,6 +95,19 @@ class PlayerEditHelper():
         cpu_field2 = self.hex_to_int(data,30,32)
         return Pitcher(offset,staff_pos,name,sinker_val,style,mystery,sink_spd,reg_spd,
                        fast_spd,left_curve,right_curve,stamina,cpu_field1,cpu_field2)
+
+    def get_team_id(self,player):
+        """
+        @param player: the Player whose team id we are looking for
+        @return: the Players team id
+        """
+        for key,team in TeamsData().values.items():
+            if isinstance(player,Pitcher):
+                if team.pitcher_offset <= player.offset < team.pitcher_offset+(v.PLAYER_LEN*v.PITCHERS_PER_TEAM):
+                    return team.team_id
+            elif isinstance(player,Batter):
+                if team.batter_offset <= player.offset < team.batter_offset+(v.PLAYER_LEN*v.BATTERS_PER_TEAM):
+                    return team.team_id
 
     def hex_to_int(self,data,start,end):
         """

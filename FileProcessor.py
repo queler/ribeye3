@@ -21,7 +21,7 @@ class FileProcessor():
         @param data: text to be written
         @return:
         """
-        with open(self.output, "r+") as output_file:
+        with open(self.output, "w+") as output_file:
             output_file.write(data)
             output_file.close()
 

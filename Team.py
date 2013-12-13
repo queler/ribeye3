@@ -23,8 +23,8 @@ class Team(object):
         self.outline = data_list[2]
         self.pitcher_pants = data_list[3]
         self.jersey = data_list[4]
-        self.batter_offset = data_list[5]
-        self.pitcher_offset = data_list[6]
+        self.batter_offset = int(data_list[5].rstrip('h'),16)*2
+        self.pitcher_offset = int(data_list[6].rstrip('h'),16)*2
         self.team_error = data_list[7]
         self.team_years = data_list[8]
 
@@ -34,9 +34,7 @@ class Team(object):
         self.outline + "\t"+\
         self.pitcher_pants + '\t'+\
         self.jersey  + '\t'+\
-        self.batter_offset + '\t'+\
-        self.pitcher_offset + '\t'+\
+        str(self.batter_offset) + '\t'+\
+        str(self.pitcher_offset) + '\t'+\
         self.team_error + '\t'+\
-        self.team_years
-
-
+        self.team_years + '\n'

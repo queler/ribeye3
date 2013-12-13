@@ -26,17 +26,17 @@ class Batter(object):
         """
         @return: a string representation of a batter
         """
-        return(str(hex(self.offset//2)) + '\t'+
-            str(self.lineup_pos) + '\t'+
-            self.name + '\t'+
-            str(self.stance) + '\t'+
-            str(self.batting_avg) + '\t'+
-            str(self.home_runs) + '\t'+
-            str(self.contact) + '\t'+
-            str(self.power) + '\t'+
-            str(self.speed) + '\t'+
-            str(self.position) + '\t'+
-            str(self.switch)) + '\n'
+        #(str(hex(self.offset//2)) + '\t'+
+        return str(self.lineup_pos) + '\t'+ \
+            self.name + '\t'+ \
+            str(self.stance) + '\t'+ \
+            str(self.batting_avg) + '\t'+ \
+            str(self.home_runs) + '\t'+ \
+            str(self.contact) + '\t'+ \
+            str(self.power) + '\t'+ \
+            str(self.speed) + '\t'+ \
+            str(self.position) + '\t'+ \
+            str(self.switch) + '\n' \
 
 
 
