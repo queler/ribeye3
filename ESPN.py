@@ -20,10 +20,17 @@ import json
 application = "RBI Rom Modifier"
 key = "nkyqeh6h837wpar74s5gt8e3"
 secret = "SxA444SEcPAKz7BsznmneSCj"
+version = "v1"
 
-url = "http://api.espn.com/v1/sports/baseball/mlb/teams"
-full_url = url + "?apikey="+key
-response = urllib.request.urlopen(full_url).read()
-jsonResponse = json.loads(response.decode('utf-8'))
-print(jsonResponse)
 
+def request(ver, resource, method, k):
+    url = "http://api.espn.com/"+ver+"/"+resource+"/"+method+"?apikey="+k
+    print(url)
+    return urllib.request.urlopen(url).read()
+
+
+def test_request():
+    print(request(version, "sports", "baseball/mlb/teams", key))
+
+
+test_request()
