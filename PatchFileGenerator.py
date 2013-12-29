@@ -6,8 +6,8 @@ import time
 import binascii
 
 original_1990_rom = "rbi3.nes"
-modified_2013_rom = "rbi2013-v2-WIP.nes"
-patchfile_filename = "2013-12-11_19-56-57.pch"
+modified_2013_rom = "rbi2013-v4-WIP.nes"
+patchfile_filename = "2013-12-29_13-57-08.pch"
 
 # function to compare two strings, print the positions
 # and values of any DIFFERENCES
