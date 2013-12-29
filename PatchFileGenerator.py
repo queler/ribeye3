@@ -81,7 +81,7 @@ def modify_1990_file():
             # or else will end up with the "odd-length string" error.
             data_1990 = data_1990.rstrip("'").lstrip("b'")
             # write dat file
-            f.write(binascii.unhexlify(data_1990)) #.decode('utf-8'))
+            f.write(binascii.unhexlify(data_1990))
 
 
 def main():
