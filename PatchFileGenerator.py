@@ -1,6 +1,7 @@
 # RBI Baseball 3 - ROM Modifier
 # Brahm Neufeld
 # December 2013
+# This file generates patch files that will turn the original RBI 3 ROM into the modified 2013 version. 
 
 import time
 import binascii
