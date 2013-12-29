@@ -9,6 +9,7 @@ import binascii
 from PlayerNames import *
 from Batter import *
 from Pitcher import *
+game_file = ""      # see comments on this var in __init__
 
 
 class PlayerEditor(object):
@@ -17,12 +18,15 @@ class PlayerEditor(object):
     pitchers = {}
 
     def __init__(self,filename):
-        # open the ROM file - changed to read in binary mode, so we can open a .nes file.
-        with open(filename, "r+b") as my_file:
+        # open the ROM file - changed to read in binary mode, so we can open a .nes file. Also changed to read-only.
+        with open(filename, "rb") as my_file:
             # str(binascii.hexlify()) creates a text string of hex, as if we'd opened a .txt file.
             # the rstrip and lstrip take out the binary "b" prefix and single quote marks that get added
             # upper() will make all of the hex uppercase; this plays nice with the character lookup
             self.data = str(binascii.hexlify(my_file.read())).rstrip("'").lstrip("b'").upper()
+            # global variables are bad, any smart ideas to get this filename to the replace_player() function?
+            global game_file
+            game_file = filename
 
     # string representation of the PlayerEditor object
     def __str__(self):
@@ -85,8 +89,14 @@ class PlayerEditor(object):
     def hex_format(self,value,precision):
         return str(hex(value)).lstrip('0x').zfill(precision).upper()
 
+    # here is where ROM file changes are written.
     def replace_player(self,string,offset):
         self.data = self.data[0:offset] + string + self.data[offset+v.PLAYER_LEN:]
+        # added these lines because when we open as a binary file, we need to manually write the changes.
+        # (we can't just keep modifying "self" because the binascii.hexlify get in the way)
+        # NOTE: the "modified_" prefix can be removed after testing; it is just preventing bad overwrites.
+        with open("modified_" + game_file, "wb") as my_file:
+            my_file.write(binascii.unhexlify(self.data))
 
 
     # update a player and write to ROM file

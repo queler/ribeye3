@@ -3,7 +3,7 @@
 # November 2013
 
 from PlayerEditor import *
-game_file = "rbi3.nes"  # changed to .nes file
+game_file = "rbi3.nes"  # changed to .nes file from .txt file
 
 
 def main():
@@ -21,7 +21,7 @@ def main():
     editor = PlayerEditor(game_file)
     #print(editor)
 
-    #editor.load_players()
+    editor.load_players()
     #editor.display_players()
 
 
