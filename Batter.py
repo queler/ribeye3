@@ -60,7 +60,7 @@ def testbatter():
 
 def test__str__():
     batter = Batter(8, 8, "Bill", 8, 8, 8, 8, 8, 8, 8, 8, 8)
-    print(batter.__str__())
+    # print(batter.__str__())
     return
 
 testbatter()

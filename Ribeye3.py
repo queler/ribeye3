@@ -3,15 +3,12 @@
 # November 2013
 
 from PlayerEditor import *
-game_file = "rbi3_game_file.txt"
+game_file = "rbi3.nes"  # changed to .nes file
 
 
 def main():
-    # open the game file
-    with open(game_file, "r+") as my_file:
-        data = my_file.read()
 
-    names = PlayerNames()
+    #names = PlayerNames()
     #print(names)
     #print(names.hex2alpha('000A0B0C0D0E4231214242'))
     #print(names.alpha2hex('McGwire'))
@@ -24,7 +21,7 @@ def main():
     editor = PlayerEditor(game_file)
     #print(editor)
 
-    editor.load_players()
+    #editor.load_players()
     #editor.display_players()
 
 

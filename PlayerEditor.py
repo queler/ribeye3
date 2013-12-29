@@ -5,6 +5,7 @@
 # provides the ability to convert players to and from their hex strings, and update players on the ROM file
 
 import Values as v
+import binascii
 from PlayerNames import *
 from Batter import *
 from Pitcher import *
@@ -16,9 +17,12 @@ class PlayerEditor(object):
     pitchers = {}
 
     def __init__(self,filename):
-        # open the ROM file
-        with open(filename, "r+") as my_file:
-            self.data = my_file.read()
+        # open the ROM file - changed to read in binary mode, so we can open a .nes file.
+        with open(filename, "r+b") as my_file:
+            # str(binascii.hexlify()) creates a text string of hex, as if we'd opened a .txt file.
+            # the rstrip and lstrip take out the binary "b" prefix and single quote marks that get added
+            # upper() will make all of the hex uppercase; this plays nice with the character lookup
+            self.data = str(binascii.hexlify(my_file.read())).rstrip("'").lstrip("b'").upper()
 
     # string representation of the PlayerEditor object
     def __str__(self):
