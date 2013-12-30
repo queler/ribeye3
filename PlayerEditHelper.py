@@ -73,18 +73,19 @@ class PlayerEditHelper():
         return Batter(offset,lineup_pos,name,stance,batting_avg,home_runs,contact,
                       power1, power2,speed,position,switch)
 
-    def create_pitcher(self,data,offset):
+    def create_pitcher(self,data,offset,era_table):
         """
         create a Pitcher from ROM file
         @param data: hex Pitcher data
         @param offset: starting address in ROM file
+        @param era_table: an array of all possible ERA values, read from the ROM file. Not efficient but hey.
         @return: a new Pitcher
         """
         staff_pos = self.hex_to_int(data,0,2)
         name = PlayerNames().hex_to_alpha(data[2:14]+data[32:36])
         sinker_val = self.hex_to_int(data,14,15)
         style = self.hex_to_int(data,15,16)
-        era = self.hex_to_int(data,16,18)
+        era = self.hex_to_ERA(data,16,18,era_table)
         sink_spd = self.hex_to_int(data,18,20)
         reg_spd = self.hex_to_int(data,20,22)
         fast_spd = self.hex_to_int(data,22,24)
@@ -127,6 +128,19 @@ class PlayerEditHelper():
         @return: a formatted hex string
         """
         return str(hex(value)).lstrip('0x').zfill(precision).upper()
+
+    def hex_to_ERA(self,data,start,end,era_table):
+        """
+        take a hex ERA value, convert to int and perform the lookup on the 2 ERA tables
+        @param data: the hex string containing data
+        @param start: start index
+        @param end: end index
+        returns: A 3-digit ERA in the form 1.23
+        Basically the same as hex_to_int but a little fancier
+        ALSO: kind of inefficient passing the whole ERA table to each and every pitcher,
+              but I'm not a smart man, Jenny...... Jembleee....., Jambourine...........
+        """
+        return era_table[int(data[start:end], 16)]
 
     def invalid_entry(self,data):
         """
