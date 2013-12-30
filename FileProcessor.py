@@ -6,7 +6,7 @@
 class FileProcessor():
     """ Provides ability to read from, and write to csv files
     """
-    output = "output.txt"
+    output = "output.csv"
     input = "input.txt"
 
     def convert_csv(self,player):
