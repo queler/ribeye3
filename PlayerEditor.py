@@ -71,7 +71,7 @@ class PlayerEditor():
             i += v.PLAYER_LEN
         return data
 
-   def write_file(self):
+    def write_file(self):
         FileProcessor().write_output(str(self))
 
     def replace_player(self,string,offset):
