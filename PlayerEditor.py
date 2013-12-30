@@ -71,33 +71,8 @@ class PlayerEditor():
             i += v.PLAYER_LEN
         return data
 
-    def write_file(self):
+   def write_file(self):
         FileProcessor().write_output(str(self))
-
-        self.update_player(batter1)
-        print(batter1)
-        data2 = self.data[v.BATTER_S1:(v.BATTER_S1+v.PLAYER_LEN)]
-        print(self.create_batter(data2,v.BATTER_S1))
-
-    # load players from their defined memory addresses
-    def load_players(self):
-        # loading batters
-        self.get_batter_block(v.BATTER_S1,v.BATTER_E1)
-        self.get_batter_block(v.BATTER_S2,v.BATTER_E2)
-
-        # loading pitchers
-        self.get_pitcher_block(v.PITCHER_S1,v.PITCHER_E1)
-        self.get_pitcher_block(v.PITCHER_S2,v.PITCHER_E2)
-
-        self.test_update()
-
-    # convert a hex value to an integer
-    def hex_to_int(self,data,start,end):
-        return int(data[start:end],v.HEX_BASE)
-
-    # format a hex string to conform to ROM file standards
-    def hex_format(self,value,precision):
-        return str(hex(value)).lstrip('0x').zfill(precision).upper()
 
     def replace_player(self,string,offset):
         """
@@ -106,11 +81,6 @@ class PlayerEditor():
         @return:
         """
         self.data = self.data[0:offset] + string + self.data[offset+v.PLAYER_LEN:]
-        # added these lines because when we open as a binary file, we need to manually write the changes.
-        # (we can't just keep modifying "self" because the binascii.hexlify get in the way)
-        # NOTE: the "modified_" prefix can be removed after testing; it is just preventing bad overwrites.
-        with open("modified_" + game_file, "wb") as my_file:
-            my_file.write(binascii.unhexlify(self.data))
 
     def update_player(self,player):
         """
@@ -126,6 +96,7 @@ class PlayerEditor():
             update_string = PlayerEditHelper().pitcher_convert(player)
             #print('Pitcher found!')
         self.replace_player(update_string,player.offset)
+
 
 
 

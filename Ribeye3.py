@@ -6,7 +6,7 @@
 """
 
 from PlayerEditor import *
-game_file = "rbi3.nes"  # changed to .nes file from .txt file
+game_file = "rbi2013-v4-WIP.nes"  # changed to .nes file from .txt file
 
 
 def main():
