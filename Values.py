@@ -4,6 +4,8 @@ HEX_BASE = 16
 # size of each player object
 PLAYER_LEN = 36
 NAME_LEN = 8
+PITCHERS_PER_TEAM = 10
+BATTERS_PER_TEAM = 14
 
 # start and end addresses of Batter and Pitcher blocks
 BATTER_S1 = int('0010',16)*2

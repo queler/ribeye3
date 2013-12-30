@@ -2,29 +2,17 @@
 # Chet Collins
 # November 2013
 
+""" Main program
+"""
+
 from PlayerEditor import *
 game_file = "rbi3.nes"  # changed to .nes file from .txt file
 
 
 def main():
-
-    #names = PlayerNames()
-    #print(names)
-    #print(names.hex2alpha('000A0B0C0D0E4231214242'))
-    #print(names.alpha2hex('McGwire'))
-
-    #player1 = Batter(32,0,'McGwire',0,300,45,5,100,100,0,0)
-    #player2 = Pitcher(32,2,'Clemens',100,1,10,10,10,10,10,60,10,10)
-    #print(player1)
-    #print(player2)
-
     editor = PlayerEditor(game_file)
-    #print(editor)
-
-    editor.load_players()
-    #editor.display_players()
-
-
+    print(str(editor))
+    editor.write_file()
 
 if __name__ == "__main__":
     main()
