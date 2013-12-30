@@ -41,7 +41,7 @@ class PlayerEditHelper():
         PlayerNames().alpha_to_hex(pitcher.name[:6]) + \
         self.hex_format(pitcher.sinker_val,1) + \
         self.hex_format(pitcher.style,1) + \
-        self.hex_format(pitcher.mystery,2) + \
+        self.hex_format(pitcher.era,2) + \
         self.hex_format(pitcher.sink_spd,2) + \
         self.hex_format(pitcher.reg_spd,2) + \
         self.hex_format(pitcher.fast_spd,2) + \
@@ -84,7 +84,7 @@ class PlayerEditHelper():
         name = PlayerNames().hex_to_alpha(data[2:14]+data[32:36])
         sinker_val = self.hex_to_int(data,14,15)
         style = self.hex_to_int(data,15,16)
-        mystery = self.hex_to_int(data,16,18)
+        era = self.hex_to_int(data,16,18)
         sink_spd = self.hex_to_int(data,18,20)
         reg_spd = self.hex_to_int(data,20,22)
         fast_spd = self.hex_to_int(data,22,24)
@@ -93,7 +93,7 @@ class PlayerEditHelper():
         stamina = self.hex_to_int(data,26,28)
         cpu_field1 = self.hex_to_int(data,28,30)
         cpu_field2 = self.hex_to_int(data,30,32)
-        return Pitcher(offset,staff_pos,name,sinker_val,style,mystery,sink_spd,reg_spd,
+        return Pitcher(offset,staff_pos,name,sinker_val,style,era,sink_spd,reg_spd,
                        fast_spd,left_curve,right_curve,stamina,cpu_field1,cpu_field2)
 
     def get_team_id(self,player):
