@@ -82,6 +82,12 @@ class PlayerEditor():
         """
         self.data = self.data[0:offset] + string + self.data[offset+v.PLAYER_LEN:]
 
+        # added these lines because when we open as a binary file, we need to manually write the changes.
+        # (we can't just keep modifying "self" because the binascii.hexlify get in the way)
+        # NOTE: the "modified_" prefix can be removed after testing; it is just preventing bad overwrites.
+        with open("modified_" + game_file, "wb") as my_file:
+            my_file.write(binascii.unhexlify(self.data))
+
     def update_player(self,player):
         """
         Update a player and write to ROM file
@@ -97,6 +103,11 @@ class PlayerEditor():
             #print('Pitcher found!')
         self.replace_player(update_string,player.offset)
 
+        # added these lines because when we open as a binary file, we need to manually write the changes.
+        # (we can't just keep modifying "self" because the binascii.hexlify get in the way)
+        # NOTE: the "modified_" prefix can be removed after testing; it is just preventing bad overwrites.
+        with open("modified_" + game_file, "wb") as my_file:
+            my_file.write(binascii.unhexlify(self.data))
 
 
 
