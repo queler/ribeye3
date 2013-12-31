@@ -36,12 +36,14 @@ class PlayerEditHelper():
         Convert a Pitcher to an equivalent hex string
         @param pitcher: Pitcher to convert
         @return: a Pitcher converted from hex
+        OLD line: self.hex_format(pitcher.era,2) + \
         """
+        #to do: this is where an ERA lookup has to happen... given a decimal ERA, look up the best hex.
         return self.hex_format(pitcher.staff_pos,2) + \
         PlayerNames().alpha_to_hex(pitcher.name[:6]) + \
         self.hex_format(pitcher.sinker_val,1) + \
         self.hex_format(pitcher.style,1) + \
-        self.hex_format(pitcher.era,2) + \
+        ERA_helper().decimal_era_to_hex(pitcher.era) + \
         self.hex_format(pitcher.sink_spd,2) + \
         self.hex_format(pitcher.reg_spd,2) + \
         self.hex_format(pitcher.fast_spd,2) + \
