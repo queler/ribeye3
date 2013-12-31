@@ -4,12 +4,8 @@
 
 
 
-import Values as v
-import binascii
-from PlayerNames import *
-from Batter import *
-from Pitcher import *
 from PlayersData import *
+import Validator
 game_file = ""      # see comments on this var in __init__
 
 class PlayerEditor():
@@ -40,18 +36,18 @@ class PlayerEditor():
         @return: A list of Pitchers in order
         """
         data = ":(pitchers)\n"
-        i = v.PITCHER_S1
-        while i < v.PITCHER_E1:
+        i = PITCHER_S1
+        while i < PITCHER_E1:
             if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(self.data,i)):
                 data += FileProcessor().convert_csv(
                     str(PlayerEditHelper().get_team_id(self.players.pitchers[i])) + "\t" + str(self.players.pitchers[i]))
-            i += v.PLAYER_LEN
-        i = v.PITCHER_S2
-        while i < v.PITCHER_E2:
+            i += PLAYER_LEN
+        i = PITCHER_S2
+        while i < PITCHER_E2:
             if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(self.data,i)):
                 data += FileProcessor().convert_csv(
                     str(PlayerEditHelper().get_team_id(self.players.pitchers[i])) + "\t" + str(self.players.pitchers[i]))
-            i += v.PLAYER_LEN
+            i += PLAYER_LEN
         return data
 
     def display_batters(self):
@@ -59,20 +55,20 @@ class PlayerEditor():
         @return: A list of Batters in order
         """
         data = ":(batters)\n"
-        i = v.BATTER_S1
-        while i < v.BATTER_E1:
+        i = BATTER_S1
+        while i < BATTER_E1:
             data += FileProcessor().convert_csv(
                 str(PlayerEditHelper().get_team_id(self.players.batters[i])) + "\t" + str(self.players.batters[i]))
-            i += v.PLAYER_LEN
-        i = v.BATTER_S2
-        while i < v.BATTER_E2:
+            i += PLAYER_LEN
+        i = BATTER_S2
+        while i < BATTER_E2:
             data += FileProcessor().convert_csv(
                 str(PlayerEditHelper().get_team_id(self.players.batters[i])) + "\t" + str(self.players.batters[i]))
-            i += v.PLAYER_LEN
+            i += PLAYER_LEN
         return data
 
     def write_file(self):
-        FileProcessor().write_output(str(self))
+        FileProcessor().write_csv(self.data)
 
     def replace_player(self,string,offset):
         """
@@ -80,13 +76,7 @@ class PlayerEditor():
         @param offset: address within the ROM file
         @return:
         """
-        self.data = self.data[0:offset] + string + self.data[offset+v.PLAYER_LEN:]
-
-        # added these lines because when we open as a binary file, we need to manually write the changes.
-        # (we can't just keep modifying "self" because the binascii.hexlify get in the way)
-        # NOTE: the "modified_" prefix can be removed after testing; it is just preventing bad overwrites.
-        with open("modified_" + game_file, "wb") as my_file:
-            my_file.write(binascii.unhexlify(self.data))
+        self.data = self.data[0:offset] + string + self.data[offset+PLAYER_LEN:]
 
     def update_player(self,player):
         """
@@ -103,11 +93,8 @@ class PlayerEditor():
             #print('Pitcher found!')
         self.replace_player(update_string,player.offset)
 
-        # added these lines because when we open as a binary file, we need to manually write the changes.
-        # (we can't just keep modifying "self" because the binascii.hexlify get in the way)
-        # NOTE: the "modified_" prefix can be removed after testing; it is just preventing bad overwrites.
-        with open("modified_" + game_file, "wb") as my_file:
-            my_file.write(binascii.unhexlify(self.data))
+
+
 
 
 

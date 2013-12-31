@@ -2,7 +2,7 @@
 # Chet Collins
 # November 2013
 
-import Values as v
+from Values import *
 from Batter import *
 from Pitcher import *
 from PlayerNames import *
@@ -104,10 +104,10 @@ class PlayerEditHelper():
         """
         for key,team in TeamsData().values.items():
             if isinstance(player,Pitcher):
-                if team.pitcher_offset <= player.offset < team.pitcher_offset+(v.PLAYER_LEN*v.PITCHERS_PER_TEAM):
+                if team.pitcher_offset <= player.offset < team.pitcher_offset+(PLAYER_LEN*PITCHERS_PER_TEAM):
                     return team.team_id
             elif isinstance(player,Batter):
-                if team.batter_offset <= player.offset < team.batter_offset+(v.PLAYER_LEN*v.BATTERS_PER_TEAM):
+                if team.batter_offset <= player.offset < team.batter_offset+(PLAYER_LEN*BATTERS_PER_TEAM):
                     return team.team_id
 
     def hex_to_int(self,data,start,end):
@@ -118,7 +118,7 @@ class PlayerEditHelper():
         @param end: end index
         @return: the integer value
         """
-        return int(data[start:end],v.HEX_BASE)
+        return int(data[start:end],HEX_BASE)
 
     def hex_format(self,value,precision):
         """
@@ -148,7 +148,7 @@ class PlayerEditHelper():
         @param data: the entry to be tested
         @return: if line contains valid data
         """
-        return int(data,v.HEX_BASE) == 0
+        return int(data,HEX_BASE) == 0
 
     def get_substring(self,data,offset):
         """
@@ -156,4 +156,4 @@ class PlayerEditHelper():
         @param offset: the starting offset
         @return: a substring containing a player
         """
-        return data[offset:offset+v.PLAYER_LEN]
+        return data[offset:offset+PLAYER_LEN]
