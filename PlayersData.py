@@ -23,8 +23,8 @@ class PlayersData():
         @param end: end address
         208: number of possible ERA values based on table size in 2005/2013 ROM
         """
-        era_table_12 = data[v.ERA_DIGITS12_S1:v.ERA_DIGITS12_E1+2]
-        era_table_3 = data[v.ERA_DIGIT3_S1:v.ERA_DIGIT3_E1+2]
+        era_table_12 = data[ERA_DIGITS12_S1:ERA_DIGITS12_E1+2]
+        era_table_3 = data[ERA_DIGIT3_S1:ERA_DIGIT3_E1+2]
 
         # for each ERA value (208 total based on dimensions of table...
         for offset in range(0, era_table_3.__len__()):
@@ -41,7 +41,7 @@ class PlayersData():
         @return:
         ERA table is passed to create_pitcher
         """
-        for offset in range(start,end,v.PLAYER_LEN):
+        for offset in range(start,end,PLAYER_LEN):
             if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(data,offset)):
                 self.pitchers[offset] = PlayerEditHelper().create_pitcher(PlayerEditHelper().get_substring(data,offset),
                                                                           offset,self.era_table)
@@ -54,7 +54,7 @@ class PlayersData():
         @param end: end address
         @return:
         """
-        for offset in range(start,end,v.PLAYER_LEN):
+        for offset in range(start,end,PLAYER_LEN):
             self.batters[offset] = PlayerEditHelper().create_batter(PlayerEditHelper().get_substring(data,offset),offset)
 
     def load_players(self,data):
@@ -66,11 +66,11 @@ class PlayersData():
         self.get_era_tables(data)
 
         # loading batters
-        self.get_batter_block(data, v.BATTER_E1, v.BATTER_S1)
-        self.get_batter_block(data, v.BATTER_E2, v.BATTER_S2)
+        self.get_batter_block(data, BATTER_E1, BATTER_S1)
+        self.get_batter_block(data, BATTER_E2, BATTER_S2)
         #print("Batters: "+str(len(self.batters)))
 
         # loading pitchers
-        self.get_pitcher_block(data,v.PITCHER_S1,v.PITCHER_E1)
-        self.get_pitcher_block(data,v.PITCHER_S2,v.PITCHER_E2)
+        self.get_pitcher_block(data,PITCHER_S1,PITCHER_E1)
+        self.get_pitcher_block(data,PITCHER_S2,PITCHER_E2)
         #print("Pitchers: "+str(len(self.pitchers)))

@@ -24,7 +24,6 @@ class Pitcher(object):
         self.cpu_field1 = cpu_field1
         self.cpu_field2 = cpu_field2
 
-    #
     def __str__(self):
         """
         @return: a string representation of a pitcher
