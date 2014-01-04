@@ -5,6 +5,7 @@
 
 
 from PlayersData import *
+import binascii
 import Validator
 game_file = ""      # see comments on this var in __init__
 
@@ -68,7 +69,7 @@ class PlayerEditor():
         return data
 
     def write_file(self):
-        FileProcessor().write_csv(self.data)
+        FileProcessor().write_output(self.data)
 
     def replace_player(self,string,offset):
         """

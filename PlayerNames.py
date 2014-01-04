@@ -13,7 +13,7 @@ class PlayerNames(dict):
         load dictionary values from file
         @return:
         """
-        super().__init__()
+        super(PlayerNames,self).__init__()
         with open(self.filename) as my_file:
             for line in my_file:
                 key, value = line.partition("\t")[::2]
