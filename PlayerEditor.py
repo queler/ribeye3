@@ -110,11 +110,11 @@ class PlayerEditor():
                 # split the .csv line into a small array
                 values = [x.strip() for x in line.split(',')]
                 # remove print after debugging
-                print(values[0]+" "+values[1]+" "+PlayerEditHelper().name_check(values[2]))
+                #print(values[0]+" "+values[1]+" "+PlayerEditHelper().name_check(values[2]))
                 # check for what teamID and decide what offset to use
                 offset = PlayerEditHelper().get_pitching_offset(int(values[0])) + (int(values[1]) - 14)*PLAYER_LEN
                 # remove print after debugging
-                print(str(hex(offset/2)))
+                #print(str(hex(offset/2)))
                 self.update_player(Pitcher(offset, int(values[1]),
                               PlayerEditHelper().name_check(values[2]), int(values[3]), int(values[4]),
                               float(values[5]), int(values[6]), int(values[7]), int(values[8]), int(values[9]),

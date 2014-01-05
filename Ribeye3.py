@@ -17,8 +17,8 @@ def main():
     editor.import_new_data()
 
     # try printing the first pitcher
-    print(PITCHER_S2)
-    print("196640 - "+ str(editor.players.pitchers[PITCHER_S2]))
+    #print(PITCHER_S2)
+    #print("196640 - "+ str(editor.players.pitchers[PITCHER_S2]))
 
     # print the whole gamefile
     #print(str(editor))
