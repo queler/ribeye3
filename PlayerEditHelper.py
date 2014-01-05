@@ -112,6 +112,9 @@ class PlayerEditHelper():
                 if team.batter_offset <= player.offset < team.batter_offset+(PLAYER_LEN*BATTERS_PER_TEAM):
                     return team.team_id
 
+    def get_pitching_offset(self,team_id):
+        return TeamsData().values[str(team_id)].pitcher_offset
+
     def hex_to_int(self,data,start,end):
         """
         Convert a hex value to an integer
@@ -159,3 +162,10 @@ class PlayerEditHelper():
         @return: a substring containing a player
         """
         return data[offset:offset+PLAYER_LEN]
+
+    def name_check(self,data):
+        """
+        check that a name is properly padded with spaces
+        see http://stackoverflow.com/questions/5676646/fill-out-a-python-string-with-spaces
+        """
+        return data.ljust(NAME_LEN)

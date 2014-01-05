@@ -8,10 +8,23 @@
 from PlayerEditor import *
 from Values import *
 
-game_file = "rbi3.nes"  # changed to .nes file from .txt file
+game_file = "rbi2013-v4-WIP.nes"  # changed to .nes file from .txt file
 
 def main():
     editor = PlayerEditor(game_file)
+
+    # read the csv file
+    editor.import_new_data()
+
+    # try printing the first pitcher
+    print(PITCHER_S2)
+    print("196640 - "+ str(editor.players.pitchers[PITCHER_S2]))
+
+    # print the whole gamefile
+    #print(str(editor))
+
+    # try printing the first pitcher
+    #print("180256 - "+ str(editor.players.batters[180256]))
 
     # create a new instance of a pitcher - spaces added to make the padding work.
     #test_pitcher = Pitcher(PITCHER_S1,14,'Brahm   ',7,1,3.21,155,155,155,5,3,65,115,115)
@@ -28,10 +41,11 @@ def main():
     # print the hex representation of the test_pitcher
     #print(PlayerEditHelper().pitcher_convert(test_pitcher))
 
-    # print the whole gamefile
-    print(str(editor))
-    # write the gamefile
-    editor.write_file()
+    # write the output csv file
+    #editor.write_file()
+
+    # write the game file
+    editor.write_game_file()
 
 if __name__ == "__main__":
     main()

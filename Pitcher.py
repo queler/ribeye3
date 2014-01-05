@@ -59,7 +59,7 @@ class ERA_helper(dict):
         value = decimal ERA value
         @return:
         """
-        super().__init__()
+        super(ERA_helper,self).__init__()
         with open(self.filename) as my_file:
             for line in my_file:
                 key, value = line.partition("\t")[::2]

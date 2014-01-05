@@ -58,7 +58,7 @@ class PlayerNames(dict):
         name = ""
         for char in alpha_string:
             if char != " ":
-                name += self.get(char)
+                name += str(self.get(char))
             else:
                 name += "24"
         return name
