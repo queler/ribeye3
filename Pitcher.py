@@ -30,7 +30,7 @@ class Pitcher(object):
         """
         #(str(hex(self.offset//2)) + '\t'+
         return str(self.staff_pos) + '\t'+ \
-            self.name + '\t'+ \
+            self.name.strip() + '\t'+ \
             str(self.sinker_val) + '\t'+ \
             str(self.style) + '\t'+ \
             str(self.era) + '\t'+ \

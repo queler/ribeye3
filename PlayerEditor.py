@@ -77,55 +77,55 @@ class PlayerEditor():
 
     def import_new_data(self):
         """
-        Read in the .csv file with updated batters and pitchers
+        Read in all Pitcher and Batter data from csv file
+        @return:
         """
         new_data = FileProcessor().read_csv_file()
-        # remove this after debugging
-        #print(new_data)
-        # let's get the batters first, then pitchers
+
         for line in new_data:
             if ":(batters)" in line:
                 read_in = "bats"
             if ":(pitchers)" in line:
                 read_in = "pitch"
+
             if read_in == "bats" and ":(batters)" not in line:
                 # split the .csv line into a small array
                 values = [x.strip() for x in line.split(',')]
-                # remove print after debugging
-                #print(values[0]+" "+values[1]+" "+PlayerEditHelper().name_check(values[2]))
-                # check for what teamID and decide what offset to use
-                if values[0]>30:
-                    offset = BATTER_S2 + (int(values[0])-31)*BATTERS_PER_TEAM*PLAYER_LEN + int(values[1])*PLAYER_LEN
+                # check if we have a valid Batter
+                if not is_valid_batter(values):
+                    for text in is_valid_batter(values):
+                        print(text)
                 else:
-                    offset = BATTER_S1 + (int(values[0])-1)*BATTERS_PER_TEAM*PLAYER_LEN + int(values[1])*PLAYER_LEN
-                # remove print after debugging
-                #print(offset)
-                self.update_player(Batter(offset, int(values[1]), PlayerEditHelper().name_check(values[2]),
-                             int(values[3]), int(values[4]),
-                             int(values[5]), int(values[6]), int(values[7])%256, int(values[7])/256, int(values[8]),
-                             int(values[9]), int(values[10])))
-                # remove print after debugging
-                #print(self.players.batters[offset])
+                    print("Valid batter found!\n")
+                    self.valid_batter_from_csv(values)
+
             if read_in == "pitch" and ":(pitchers)" not in line:
                 # split the .csv line into a small array
                 values = [x.strip() for x in line.split(',')]
-                # remove print after debugging
-                #print(values[0]+" "+values[1]+" "+PlayerEditHelper().name_check(values[2]))
-                # check for what teamID and decide what offset to use
-                offset = PlayerEditHelper().get_pitching_offset(int(values[0])) + (int(values[1]) - 14)*PLAYER_LEN
-                # remove print after debugging
-                #print(str(hex(offset/2)))
-                self.update_player(Pitcher(offset, int(values[1]),
-                              PlayerEditHelper().name_check(values[2]), int(values[3]), int(values[4]),
-                              float(values[5]), int(values[6]), int(values[7]), int(values[8]), int(values[9]),
-                              int(values[10]), int(values[11]), int(values[12]), int(values[13])))
-                #PlayerEditor.update_player(self,Pitcher(offset, int(values[1]),
-                #              PlayerEditHelper().name_check(values[2]), int(values[3]), int(values[4]),
-                #              float(values[5]), int(values[6]), int(values[7]), int(values[8]), int(values[9]),
-                #              int(values[10]), int(values[11]), int(values[12]), int(values[13])))
+                # check if we have a valid Pitcher
+                if not is_valid_pitcher(values):
+                    for text in is_valid_pitcher(values):
+                        print(text)
+                else:
+                    print("Valid pitcher found!\n")
+                    self.valid_pitcher_from_csv(values)
+
         # re-initialize self.players based on new players
         self.players = PlayersData(self.data)
 
+    def valid_pitcher_from_csv(self, values):
+        # check for what teamID and decide what offset to use
+        self.update_player(Pitcher(PlayerEditHelper().get_pitcher_offset(int(values[0]), int(values[1])),
+                    int(values[1]), PlayerEditHelper().name_check(values[2]), int(values[3]), int(values[4]),
+                    float(values[5]), int(values[6]), int(values[7]), int(values[8]), int(values[9]),
+                    int(values[10]), int(values[11]), int(values[12]), int(values[13])))
+
+    def valid_batter_from_csv(self, values):
+        # check for what teamID and decide what offset to use
+        self.update_player(Batter(PlayerEditHelper().get_batter_offset(int(values[0]), int(values[1])),
+                    int(values[1]), PlayerEditHelper().name_check(values[2]), int(values[3]), int(values[4]),
+                    int(values[5]), int(values[6]), int(values[7])%256, int(values[7])//256, int(values[8]),
+                    int(values[9]), int(values[10])))
 
     def replace_player(self,string,offset):
         """

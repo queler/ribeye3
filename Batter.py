@@ -30,7 +30,7 @@ class Batter(object):
         """
         #(str(hex(self.offset//2)) + '\t'+
         return str(self.lineup_pos) + '\t'+ \
-            self.name + '\t'+ \
+            self.name.strip() + '\t'+ \
             str(self.stance) + '\t'+ \
             str(self.batting_avg) + '\t'+ \
             str(self.home_runs) + '\t'+ \

@@ -8,7 +8,7 @@
 from PlayerEditor import *
 from Values import *
 
-game_file = "rbi2013-v4-WIP.nes"  # changed to .nes file from .txt file
+game_file = "rom-files/rbi2013-v4-WIP.nes"  # changed to .nes file from .txt file
 
 def main():
     editor = PlayerEditor(game_file)
@@ -46,6 +46,7 @@ def main():
 
     # write the game file
     editor.write_game_file()
+
 
 if __name__ == "__main__":
     main()

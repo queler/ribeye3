@@ -33,7 +33,17 @@ class FileProcessor():
 
     def write_nes_file(self,data):
         with open(time.strftime("%Y-%m-%d_%H-%M-%S") + "-patched_ROM.nes", "wb") as f:
-             nes_file = data.rstrip("'").lstrip("b'")
-             #print(nes_file)
-             f.write(binascii.unhexlify(nes_file))
+            nes_file = data.rstrip("'").lstrip("b'")
+            #print(nes_file)
+            f.write(binascii.unhexlify(nes_file))
+            f.close()
+
+    def write_error_log(self,data):
+        """
+        @param data: the error data to be written
+        @return:
+        """
+        with open(time.strftime("%Y-%m-%d_%H-%M-%S") + "-error-log", "wb") as error_log:
+            error_log.write(data)
+            error_log.close()
 

@@ -112,8 +112,21 @@ class PlayerEditHelper():
                 if team.batter_offset <= player.offset < team.batter_offset+(PLAYER_LEN*BATTERS_PER_TEAM):
                     return team.team_id
 
-    def get_pitching_offset(self,team_id):
-        return TeamsData().values[str(team_id)].pitcher_offset
+    def get_pitcher_offset(self, team_id, staff_pos):
+        """
+        @param team_id: the team id of the Pitcher
+        @param staff_pos: the staff position of the Pitcher
+        @return: the offset where the Pitcher is to be written
+        """
+        return TeamsData().values[str(team_id)].pitcher_offset + (staff_pos - STAFF_POS_START)*PLAYER_LEN
+
+    def get_batter_offset(self, team_id, lineup_pos):
+        """
+        @param team_id: the team id of the Batter
+        @param lineup_pos: the lineup position of the Batter
+        @return: the offset where the Batter is to be written
+        """
+        return TeamsData().values[str(team_id)].batter_offset + lineup_pos*PLAYER_LEN
 
     def hex_to_int(self,data,start,end):
         """
