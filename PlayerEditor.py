@@ -114,6 +114,8 @@ class PlayerEditor():
                 read_in = "bats"
             if ":(pitchers)" in line:
                 read_in = "pitch"
+            if ":(team_params)" in line:
+                read_in = "team_params"
 
             if read_in == "bats" and ":(batters)" not in line:
                 # split the .csv line into a small array
@@ -137,8 +139,38 @@ class PlayerEditor():
                     #print("Valid pitcher found!\n")
                     self.valid_pitcher_from_csv(values)
 
+            if read_in == "team_params" and ":(team_params)" not in line:
+                # split the .csv line into a small array
+                values = [x.strip() for x in line.split(',')]
+                self.valid_team_from_csv(values)
+                """ TO DO: FIX VALIDATION LATER
+                if not is_valid_team(values):
+                    for text in is_valid_team(values):
+                        print(text)
+                else:
+                    print("Valid team found!\n")
+                    self.valid_team_from_csv(values)
+                """
+
         # re-initialize self.players based on new players
         self.players = PlayersData(self.data)
+
+    def valid_team_from_csv(self,values):
+        """
+        take valid team data and insert it into the ROM file.
+        TO DO: clean this up a little bit.
+        """
+
+        uniform_offset = PlayerEditHelper().get_team_uniform_colour_offset(int(values[0]))
+        self.replace_nonplayer_data(str(values[2]).rjust(2,'0') +
+                                    str(values[3]).rjust(2,'0') +
+                                    str(values[4]).rjust(2,'0'), uniform_offset)
+        error_pct_offset = PlayerEditHelper().get_team_error_offset(int(values[0]))
+
+        # TO DO: turn this logic into a function
+        int_error = int(round(float(values[5])/100*255,0))
+        error_hex = PlayerEditHelper().hex_format(int_error,2)
+        self.replace_nonplayer_data(error_hex,error_pct_offset)
 
     def valid_pitcher_from_csv(self, values):
         # check for what teamID and decide what offset to use
@@ -153,6 +185,18 @@ class PlayerEditor():
                     int(values[1]), PlayerEditHelper().name_check(values[2]), int(values[3]), int(values[4]),
                     int(values[5]), int(values[6]), int(values[7])%256, int(values[7])//256, int(values[8]),
                     int(values[9]), int(values[10])))
+
+    def replace_nonplayer_data(self,string,offset):
+        """
+        @param string: Player to be replaced in the ROM file
+        @param offset: address within the ROM file
+        @param length: length of string to be replaced
+        @return:
+        """
+        length = len(str(string))
+        offset = int(offset)
+        string = str(string)
+        self.data = self.data[0:offset] + string + self.data[offset+length:]
 
     def replace_player(self,string,offset):
         """

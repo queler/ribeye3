@@ -132,11 +132,18 @@ class PlayerEditHelper():
         @param team_id: the team id of a team
         @return: a tab-delimited string of the three uniform values.
         """
-        offset_int = int(str(TeamsData().values[str(team_id)].outline).replace("h",""),16)*2
+        offset_int = self.get_team_uniform_colour_offset(team_id)
         value = PlayerEditHelper().get_substring_nonplayer(data,offset_int,UNIFORM_DATA_LEN)
         return value[:2] + "\t" + \
                value[2:-2] + "\t" + \
                value[-2:]
+
+    def get_team_uniform_colour_offset(self,team_id):
+        """
+        @param team_id: the team id of a team
+        @return: the integer offset of the uniform colours
+        """
+        return int(str(TeamsData().values[str(team_id)].outline).replace("h",""),16)*2
 
     def get_team_error_percent(self,data,team_id):
         """
@@ -145,11 +152,18 @@ class PlayerEditHelper():
         @return: the error percentage of a team
         """
         # strip off "h", convert to an offset
-        offset_int = int(str(TeamsData().values[str(team_id)].team_error).replace("h",""),16)*2
+        offset_int = self.get_team_error_offset(team_id)
         value = PlayerEditHelper().get_substring_nonplayer(data,offset_int, ERROR_PCT_LEN)
         value = float(int(value,HEX_BASE))/255*100
         value = str("%.2f" % value)
         return value
+
+    def get_team_error_offset(self,team_id):
+        """
+        @param team_id: the team id of a team
+        @return: the integer offset of a team
+        """
+        return int(str(TeamsData().values[str(team_id)].team_error).replace("h",""),HEX_BASE)*2
 
     def get_batter_offset(self, team_id, lineup_pos):
         """
