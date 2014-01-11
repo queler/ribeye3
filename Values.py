@@ -7,6 +7,10 @@ NAME_LEN = 8
 PITCHERS_PER_TEAM = 10
 BATTERS_PER_TEAM = 14
 
+# size of some team objects
+ERROR_PCT_LEN = 2
+UNIFORM_DATA_LEN = 6
+
 # start and end addresses of Batter and Pitcher blocks
 BATTER_S1 = int('0010',16)*2
 BATTER_E1 = int('01D97',16)*2

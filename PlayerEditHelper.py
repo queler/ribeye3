@@ -120,6 +120,37 @@ class PlayerEditHelper():
         """
         return TeamsData().values[str(team_id)].pitcher_offset + (staff_pos - STAFF_POS_START)*PLAYER_LEN
 
+    def get_team_initials(self,team_id):
+        """
+        @param team_id: the team id of a team
+        @return: the initials of the team
+        """
+        return TeamsData().values[str(team_id)].team_text
+
+    def get_team_uniform_colours(self,data,team_id):
+        """
+        @param team_id: the team id of a team
+        @return: a tab-delimited string of the three uniform values.
+        """
+        offset_int = int(str(TeamsData().values[str(team_id)].outline).replace("h",""),16)*2
+        value = PlayerEditHelper().get_substring_nonplayer(data,offset_int,UNIFORM_DATA_LEN)
+        return value[:2] + "\t" + \
+               value[2:-2] + "\t" + \
+               value[-2:]
+
+    def get_team_error_percent(self,data,team_id):
+        """
+        @param team_id: the team id of a team
+        @param data: the self.data data object from PlayerEditor.py
+        @return: the error percentage of a team
+        """
+        # strip off "h", convert to an offset
+        offset_int = int(str(TeamsData().values[str(team_id)].team_error).replace("h",""),16)*2
+        value = PlayerEditHelper().get_substring_nonplayer(data,offset_int, ERROR_PCT_LEN)
+        value = float(int(value,HEX_BASE))/255*100
+        value = str("%.2f" % value)
+        return value
+
     def get_batter_offset(self, team_id, lineup_pos):
         """
         @param team_id: the team id of the Batter
@@ -175,6 +206,17 @@ class PlayerEditHelper():
         @return: a substring containing a player
         """
         return data[offset:offset+PLAYER_LEN]
+
+    def get_substring_nonplayer(self,data,offset,length):
+        """
+        get_substring is set up to only grab something by player length...
+        this function can grab something by any length
+        @param data: the source from which to extract the substring
+        @param offset: the starting offset
+        @param length: the length to offset
+        @return: a substring containing a player
+        """
+        return data[offset:offset+length]
 
     def name_check(self,data):
         """

@@ -31,7 +31,7 @@ class PlayerEditor():
         """
         @return: list of all Pitchers and Batters
         """
-        return self.display_batters() + self.display_pitchers()
+        return self.display_batters() + self.display_pitchers() + self.display_team_params()
 
     def display_pitchers(self):
         """
@@ -39,12 +39,16 @@ class PlayerEditor():
         """
         data = ":(pitchers)DONT CHANGE,lineup# DONT CHANGE,Name,SinkerVal,Stance,ERA," \
                "SinkSpd,RegSpd,FastSpd,LCurve,RCurve,Stamina,CPU1,CPU2\n"
+        # commenting out the archive teams so they don't clutter up the .csv export file
+        # can always remove this comment in the future.
+        """
         i = PITCHER_S1
         while i < PITCHER_E1:
             if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(self.data,i)):
                 data += FileProcessor().convert_csv(
                     str(PlayerEditHelper().get_team_id(self.players.pitchers[i])) + "\t" + str(self.players.pitchers[i]))
             i += PLAYER_LEN
+        """
         i = PITCHER_S2
         while i < PITCHER_E2:
             if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(self.data,i)):
@@ -59,11 +63,15 @@ class PlayerEditor():
         """
         data = ":(batters)DONT CHANGE,lineup# DONT CHANGE,Name,Stance,BA,HR,Contact," \
                "Power,Speed,FieldingPos,Switch\n"
+        # commenting out the archive teams so they don't clutter up the .csv export file
+        # can always remove this comment in the future.
+        """
         i = BATTER_S1
         while i < BATTER_E1:
             data += FileProcessor().convert_csv(
                 str(PlayerEditHelper().get_team_id(self.players.batters[i])) + "\t" + str(self.players.batters[i]))
             i += PLAYER_LEN
+        """
         i = BATTER_S2
         while i < BATTER_E2:
             data += FileProcessor().convert_csv(
@@ -75,6 +83,18 @@ class PlayerEditor():
         """
         @return: A list of team parameters like error %, uniform colour options,
         """
+        data = ":(team_params)TeamID DONT CHANGE,Initials DONT CHANGE,OutlineCol(00-3F),PantsCol(00-3F)," \
+               "JerseyCol(00-3F),TeamErrorPct(to nearest 0.39)\n"
+        # loop through teams 31 to 60. In the future we can change this to 1-60.
+        i = 31
+        while i <= 60:
+            data += FileProcessor().convert_csv(
+                str(i) + "\t" +
+                str(PlayerEditHelper().get_team_initials(str(i))) + "\t" +
+                str(PlayerEditHelper().get_team_uniform_colours(self.data,str(i))) + "\t" + \
+                str(PlayerEditHelper().get_team_error_percent(self.data, str(i))) + "\n")
+            i += 1
+        return data
 
     def write_file(self):
         FileProcessor().write_output(self.__str__())

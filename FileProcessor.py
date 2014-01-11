@@ -20,7 +20,7 @@ class FileProcessor():
 
     def write_output(self,data):
         """
-        @param data: text to be written
+        @param data: text to be written - typically for .csv files
         @return:
         """
         with open(self.output, "w+") as output_file:
