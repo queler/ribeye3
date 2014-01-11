@@ -37,7 +37,8 @@ class PlayerEditor():
         """
         @return: A list of Pitchers in order
         """
-        data = ":(pitchers)\n"
+        data = ":(pitchers)DONT CHANGE,lineup# DONT CHANGE,Name,SinkerVal,Stance,ERA," \
+               "SinkSpd,RegSpd,FastSpd,LCurve,RCurve,Stamina,CPU1,CPU2\n"
         i = PITCHER_S1
         while i < PITCHER_E1:
             if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(self.data,i)):
@@ -56,7 +57,8 @@ class PlayerEditor():
         """
         @return: A list of Batters in order
         """
-        data = ":(batters)\n"
+        data = ":(batters)DONT CHANGE,lineup# DONT CHANGE,Name,Stance,BA,HR,Contact," \
+               "Power,Speed,FieldingPos,Switch\n"
         i = BATTER_S1
         while i < BATTER_E1:
             data += FileProcessor().convert_csv(
