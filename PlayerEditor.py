@@ -69,8 +69,13 @@ class PlayerEditor():
             i += PLAYER_LEN
         return data
 
+    def display_team_params(self):
+        """
+        @return: A list of team parameters like error %, uniform colour options,
+        """
+
     def write_file(self):
-        FileProcessor().write_output(self.data)
+        FileProcessor().write_output(self.__str__())
 
     def write_game_file(self):
         FileProcessor().write_nes_file(self.data)
@@ -96,7 +101,7 @@ class PlayerEditor():
                     for text in is_valid_batter(values):
                         print(text)
                 else:
-                    print("Valid batter found!\n")
+                    #print("Valid batter found!\n")
                     self.valid_batter_from_csv(values)
 
             if read_in == "pitch" and ":(pitchers)" not in line:
@@ -107,7 +112,7 @@ class PlayerEditor():
                     for text in is_valid_pitcher(values):
                         print(text)
                 else:
-                    print("Valid pitcher found!\n")
+                    #print("Valid pitcher found!\n")
                     self.valid_pitcher_from_csv(values)
 
         # re-initialize self.players based on new players
