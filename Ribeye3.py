@@ -8,7 +8,7 @@
 from PlayerEditor import *
 from Values import *
 
-game_file = "rbi2013-1.1.nes"  # should be .nes file
+game_file = "rbi2013-1.2.nes"  # should be .nes file
 
 def main():
     editor = PlayerEditor(game_file)
@@ -42,10 +42,10 @@ def main():
     #print(PlayerEditHelper().pitcher_convert(test_pitcher))
 
     # write the output csv file
-    # editor.write_file()
+    #editor.write_file()
 
     # write the game file
-    # editor.write_game_file()
+    editor.write_game_file()
 
 if __name__ == "__main__":
     main()
