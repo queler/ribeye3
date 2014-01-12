@@ -6,8 +6,8 @@
 import time
 import binascii
 
-original_1990_rom = "rbi3.nes"
-modified_2013_rom = "rbi2013-1.3.nes"
+#original_1990_rom = "rbi3.nes"
+#modified_2013_rom = "rbi2013-1.3.nes"
 patchfile_filename = "data_files/2013patchfile.pch"
 
 # function to compare two strings, print the positions
@@ -28,7 +28,7 @@ def character_compare(a,b):
 # # right now the 1990 ROM and patch file are defined as globals.
 # # in the future the 1990 ROM will be a user-updated file, but the patchfile will live on the server.
 # # remember, when the user uploads a 1990 ROM, the server should destroy it when it's done.
-def create_patchfile():
+def create_patchfile(original_1990_rom, modified_2013_rom):
     with open(original_1990_rom, "rb") as rom_1990:
         data_1990 = rom_1990.read()
         data_1990 = str(binascii.hexlify(data_1990))
@@ -47,7 +47,7 @@ def create_patchfile():
 # then serve the all-changed-up file back to the user.
 # to do:
 # # the user will have to upload the 1990 file to the server... it can't live on the server.
-def modify_1990_file():
+def modify_1990_file(original_1990_rom, patchfile_filename, new_file_filename):
     # ok let's go to town on this ROM patch file thingamajig
     with open(original_1990_rom, "rb") as rom_1990:
         # use hexlify to read in the rom file as the hex characters
@@ -76,7 +76,7 @@ def modify_1990_file():
         data_1990 = "".join(data_1990)
         # praise be to carlos satanas if this can actually write to a new binary .nes file!
         # i learned it from youuuuuuuu: http://tinyurl.com/odeh844
-        with open(time.strftime("%Y-%m-%d_%H-%M-%S") + "-patched_ROM.nes", "wb") as f:
+        with open(new_file_filename, "wb") as f:
             # holy SHIT this was a hard one to crack. Have to remove the prefix b' and take off the last ' character
             # or else will end up with the "odd-length string" error.
             data_1990 = data_1990.rstrip("'").lstrip("b'")

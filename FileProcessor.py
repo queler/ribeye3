@@ -9,7 +9,7 @@ class FileProcessor():
     """ Provides ability to read from, and write to csv files
     """
     output = "output.csv"
-    input = "2013_roster_v1.2.csv"
+    input = "data_files/2013_roster_v1.3.csv"
 
     def convert_csv(self,player):
         """
@@ -27,12 +27,12 @@ class FileProcessor():
             output_file.write(data)
             output_file.close()
 
-    def read_csv_file(self):
-        with open(self.input,"r") as input_file:
+    def read_csv_file(self, csv_file):
+        with open(csv_file,"r") as input_file:
             return [line.rstrip() for line in input_file]
 
-    def write_nes_file(self,data):
-        with open(time.strftime("%Y-%m-%d_%H-%M-%S") + "-patched_ROM.nes", "wb") as f:
+    def write_nes_file(self,data, filename):
+        with open(filename, "wb") as f:
             nes_file = data.rstrip("'").lstrip("b'")
             #print(nes_file)
             f.write(binascii.unhexlify(nes_file))

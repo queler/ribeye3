@@ -7,21 +7,24 @@
 
 from PlayerEditor import *
 from Values import *
+from CmdLineSupport import *
 
-game_file = "rbi2013-1.2.nes"  # should be .nes file
+# game_file = "rbi2013-1.3.nes"  # should be .nes file
 
 def main():
-    editor = PlayerEditor(game_file)
+    run_from_command_line()
+
+    #editor = PlayerEditor(game_file)
 
     # read the csv file
-    editor.import_new_data()
+    #editor.import_new_data()
 
     # try printing the first pitcher
     #print(PITCHER_S2)
     #print("196640 - "+ str(editor.players.pitchers[PITCHER_S2]))
 
     # print the whole gamefile
-    print(editor)
+    #print(editor)
 
     # try printing the first pitcher
     #print("180256 - "+ str(editor.players.batters[180256]))
@@ -45,7 +48,7 @@ def main():
     #editor.write_file()
 
     # write the game file
-    editor.write_game_file()
+    #editor.write_game_file()
 
 if __name__ == "__main__":
     main()

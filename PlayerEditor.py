@@ -99,15 +99,15 @@ class PlayerEditor():
     def write_file(self):
         FileProcessor().write_output(self.__str__())
 
-    def write_game_file(self):
-        FileProcessor().write_nes_file(self.data)
+    def write_game_file(self, filename):
+        FileProcessor().write_nes_file(self.data, filename)
 
-    def import_new_data(self):
+    def import_new_data(self, csv_file):
         """
         Read in all Pitcher and Batter data from csv file
         @return:
         """
-        new_data = FileProcessor().read_csv_file()
+        new_data = FileProcessor().read_csv_file(csv_file)
 
         for line in new_data:
             if ":(batters)" in line:
