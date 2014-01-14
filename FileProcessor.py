@@ -9,7 +9,7 @@ class FileProcessor():
     """ Provides ability to read from, and write to csv files
     """
     output = "output.csv"
-    input = "data_files/2013_roster_v1.0.csv"
+    input = "2013_roster_v1.2.csv"
 
     def convert_csv(self,player):
         """
@@ -20,7 +20,7 @@ class FileProcessor():
 
     def write_output(self,data):
         """
-        @param data: text to be written
+        @param data: text to be written - typically for .csv files
         @return:
         """
         with open(self.output, "w+") as output_file:

@@ -31,19 +31,24 @@ class PlayerEditor():
         """
         @return: list of all Pitchers and Batters
         """
-        return self.display_batters() + self.display_pitchers()
+        return self.display_batters() + self.display_pitchers() + self.display_team_params()
 
     def display_pitchers(self):
         """
         @return: A list of Pitchers in order
         """
-        data = ":(pitchers)\n"
+        data = ":(pitchers)DONT CHANGE,lineup# DONT CHANGE,Name,SinkerVal,Stance,ERA," \
+               "SinkSpd,RegSpd,FastSpd,LCurve,RCurve,Stamina,CPU1,CPU2\n"
+        # commenting out the archive teams so they don't clutter up the .csv export file
+        # can always remove this comment in the future.
+        """
         i = PITCHER_S1
         while i < PITCHER_E1:
             if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(self.data,i)):
                 data += FileProcessor().convert_csv(
                     str(PlayerEditHelper().get_team_id(self.players.pitchers[i])) + "\t" + str(self.players.pitchers[i]))
             i += PLAYER_LEN
+        """
         i = PITCHER_S2
         while i < PITCHER_E2:
             if not PlayerEditHelper().invalid_entry(PlayerEditHelper().get_substring(self.data,i)):
@@ -56,12 +61,17 @@ class PlayerEditor():
         """
         @return: A list of Batters in order
         """
-        data = ":(batters)\n"
+        data = ":(batters)DONT CHANGE,lineup# DONT CHANGE,Name,Stance,BA,HR,Contact," \
+               "Power,Speed,FieldingPos,Switch\n"
+        # commenting out the archive teams so they don't clutter up the .csv export file
+        # can always remove this comment in the future.
+        """
         i = BATTER_S1
         while i < BATTER_E1:
             data += FileProcessor().convert_csv(
                 str(PlayerEditHelper().get_team_id(self.players.batters[i])) + "\t" + str(self.players.batters[i]))
             i += PLAYER_LEN
+        """
         i = BATTER_S2
         while i < BATTER_E2:
             data += FileProcessor().convert_csv(
@@ -69,8 +79,25 @@ class PlayerEditor():
             i += PLAYER_LEN
         return data
 
+    def display_team_params(self):
+        """
+        @return: A list of team parameters like error %, uniform colour options,
+        """
+        data = ":(team_params)TeamID DONT CHANGE,Initials DONT CHANGE,OutlineCol(00-3F),PantsCol(00-3F)," \
+               "JerseyCol(00-3F),TeamErrorPct(to nearest 0.39)\n"
+        # loop through teams 31 to 60. In the future we can change this to 1-60.
+        i = 31
+        while i <= 60:
+            data += FileProcessor().convert_csv(
+                str(i) + "\t" +
+                str(PlayerEditHelper().get_team_initials(str(i))) + "\t" +
+                str(PlayerEditHelper().get_team_uniform_colours(self.data,str(i))) + "\t" + \
+                str(PlayerEditHelper().get_team_error_percent(self.data, str(i))) + "\n")
+            i += 1
+        return data
+
     def write_file(self):
-        FileProcessor().write_output(self.data)
+        FileProcessor().write_output(self.__str__())
 
     def write_game_file(self):
         FileProcessor().write_nes_file(self.data)
@@ -89,6 +116,8 @@ class PlayerEditor():
                 read_in = "bats"
             if ":(pitchers)" in line:
                 read_in = "pitch"
+            if ":(team_params)" in line:
+                read_in = "team_params"
 
             if read_in == "bats" and ":(batters)" not in line:
                 # split the .csv line into a small array
@@ -99,7 +128,7 @@ class PlayerEditor():
                     for text in is_valid_batter(values):
                         print(text)
                 else:
-                    print("Valid batter found!\n")
+                    #print("Valid batter found!\n")
                     self.valid_batter_from_csv(values)
 
             if read_in == "pitch" and ":(pitchers)" not in line:
@@ -110,11 +139,41 @@ class PlayerEditor():
                     for text in is_valid_pitcher(values):
                         print(text)
                 else:
-                    print("Valid pitcher found!\n")
+                    #print("Valid pitcher found!\n")
                     self.valid_pitcher_from_csv(values)
+
+            if read_in == "team_params" and ":(team_params)" not in line:
+                # split the .csv line into a small array
+                values = [x.strip() for x in line.split(',')]
+                self.valid_team_from_csv(values)
+                """ TO DO: FIX VALIDATION LATER
+                if not is_valid_team(values):
+                    for text in is_valid_team(values):
+                        print(text)
+                else:
+                    print("Valid team found!\n")
+                    self.valid_team_from_csv(values)
+                """
 
         # re-initialize self.players based on new players
         self.players = PlayersData(self.data)
+
+    def valid_team_from_csv(self,values):
+        """
+        take valid team data and insert it into the ROM file.
+        TO DO: clean this up a little bit.
+        """
+
+        uniform_offset = PlayerEditHelper().get_team_uniform_colour_offset(int(values[0]))
+        self.replace_nonplayer_data(str(values[2]).rjust(2,'0') +
+                                    str(values[3]).rjust(2,'0') +
+                                    str(values[4]).rjust(2,'0'), uniform_offset)
+        error_pct_offset = PlayerEditHelper().get_team_error_offset(int(values[0]))
+
+        # TO DO: turn this logic into a function
+        int_error = int(round(float(values[5])/100*255,0))
+        error_hex = PlayerEditHelper().hex_format(int_error,2)
+        self.replace_nonplayer_data(error_hex,error_pct_offset)
 
     def valid_pitcher_from_csv(self, values):
         # check for what teamID and decide what offset to use
@@ -129,6 +188,18 @@ class PlayerEditor():
                     int(values[1]), PlayerEditHelper().name_check(values[2]), int(values[3]), int(values[4]),
                     int(values[5]), int(values[6]), int(values[7])%256, int(values[7])//256, int(values[8]),
                     int(values[9]), int(values[10])))
+
+    def replace_nonplayer_data(self,string,offset):
+        """
+        @param string: Player to be replaced in the ROM file
+        @param offset: address within the ROM file
+        @param length: length of string to be replaced
+        @return:
+        """
+        length = len(str(string))
+        offset = int(offset)
+        string = str(string)
+        self.data = self.data[0:offset] + string + self.data[offset+length:]
 
     def replace_player(self,string,offset):
         """

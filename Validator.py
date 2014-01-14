@@ -1,5 +1,20 @@
 from Values import *
 
+def is_valid_team(data):
+    """
+    Ensure that a team has valid data before creating an object.
+    @param data: the team data to be validated
+    @return: whether the team is valud, and error logging information
+    TO DO: ACTUALLY COMPLETE ALL OF THIS TEAM DATA VALIDATION!!!
+    """
+    error_msg = ",".join(data)+'\n'
+    status = True
+
+    if TEAM_ID_MIN <= int(data[0]) <= TEAM_ID_MAX:
+        error_msg += "Team Id: {0} must be within {1} and {2}\n".format(data[0],TEAM_ID_MIN,TEAM_ID_MAX)
+        status = False
+
+
 
 def is_valid_pitcher(data):
     """ Ensure that a Pitcher has valid data before creating object

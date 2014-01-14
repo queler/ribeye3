@@ -8,7 +8,7 @@
 from PlayerEditor import *
 from Values import *
 
-game_file = "rom-files/rbi2013-v4-WIP.nes"  # changed to .nes file from .txt file
+game_file = "rbi2013-1.2.nes"  # should be .nes file
 
 def main():
     editor = PlayerEditor(game_file)
@@ -21,7 +21,7 @@ def main():
     #print("196640 - "+ str(editor.players.pitchers[PITCHER_S2]))
 
     # print the whole gamefile
-    #print(str(editor))
+    print(editor)
 
     # try printing the first pitcher
     #print("180256 - "+ str(editor.players.batters[180256]))
@@ -46,7 +46,6 @@ def main():
 
     # write the game file
     editor.write_game_file()
-
 
 if __name__ == "__main__":
     main()

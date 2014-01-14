@@ -7,8 +7,8 @@ import time
 import binascii
 
 original_1990_rom = "rbi3.nes"
-modified_2013_rom = "rbi2013-v4-WIP.nes"
-patchfile_filename = "data_files/2013-12-29_13-57-08.pch"
+modified_2013_rom = "rbi2013-1.3.nes"
+patchfile_filename = "data_files/2013patchfile.pch"
 
 # function to compare two strings, print the positions
 # and values of any DIFFERENCES
@@ -91,8 +91,8 @@ def main():
     # create_patchfile()
 
     # Uncomment modify_1990_file() whenever we want to apply the base patch to a newly uploaded 1990 ROM file.
-    modify_1990_file()
-
+    # modify_1990_file()
+    do="nothing"
 
 if __name__ == "__main__":
     main()
