@@ -109,8 +109,10 @@ class PlayerEditor():
         """
         new_data = FileProcessor().read_csv_file(csv_file)
 
+
         for line in new_data:
             if ":(batters)" in line:
+
                 read_in = "bats"
             if ":(pitchers)" in line:
                 read_in = "pitch"
@@ -120,8 +122,9 @@ class PlayerEditor():
             if read_in == "bats" and ":(batters)" not in line:
                 # split the .csv line into a small array
                 values = [x.strip() for x in line.split(',')]
-                # check if we have a valid Batter
+
                 if not is_valid_batter(values):
+                    #TODO write error log
                     for text in is_valid_batter(values):
                         print(text)
                 else:
@@ -131,7 +134,7 @@ class PlayerEditor():
             if read_in == "pitch" and ":(pitchers)" not in line:
                 # split the .csv line into a small array
                 values = [x.strip() for x in line.split(',')]
-                # check if we have a valid Pitcher
+
                 if not is_valid_pitcher(values):
                     for text in is_valid_pitcher(values):
                         print(text)
