@@ -7,6 +7,7 @@
 from PlayersData import *
 from Validator import *
 import binascii
+import time
 import re
 game_file = ""      # see comments on this var in __init__
 
@@ -174,8 +175,13 @@ class PlayerEditor():
             if read_in == "rom_year" and ":(ROM_year)" not in line:
                 # split the .csv line into a small array - this will be two values, one for each digit
                 values = [x.strip() for x in line.split(',')]
-                self.valid_base_year_from_csv(values)
-                # TODO: VALIDATION
+                # validation - if both values are in the list of valid year digits (as strings)
+                if values[0] in YEAR_LOOKUP_INT and values[1] in YEAR_LOOKUP_INT:
+                    self.valid_base_year_from_csv(values)
+                # else, set values equal to the current year and go.
+                else:
+                    values = [str(time.strftime("%y")[:1]), str(time.strftime("%y")[-1:])]
+                    self.valid_base_year_from_csv(values)
 
         # re-initialize self.players based on new players
         self.players = PlayersData(self.data)

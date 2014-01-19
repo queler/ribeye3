@@ -2,10 +2,14 @@
 
 import cgi, os, time
 import cgitb; cgitb.enable()
+import os.path
 from PlayerEditor import *
 from PatchFileGenerator import *
 from Values import *
+from random import randint
 
+# generate a random number so if a file with an identical name exists on the server, a random number can be appended
+random_number_string = str(randint(0,100000))
 
 form = cgi.FieldStorage()
 message = ""
@@ -25,6 +29,9 @@ if file_item1.filename:
     # strip leading path from file name to avoid
     # directory traversal attacks
     rbi3_1990_file = ROOT_DIRECTORY + 'upload\\' + os.path.basename(file_item1.filename)
+    # check and make sure this file doesn't exist already
+    if os.path.isfile(rbi3_1990_file):
+        rbi3_1990_file = ROOT_DIRECTORY + 'upload\\' + random_number_string + '-' + os.path.basename(file_item1.filename)
     # NOTE: on brahm.ca read/write permissions have to be set for folders via admin.brahm.ca control panel
     open(rbi3_1990_file, 'wb').write(file_item1.file.read())
 else:
@@ -36,6 +43,9 @@ if file_item2.filename:
     # strip leading path from file name to avoid
     # directory traversal attacks
     csv_file = ROOT_DIRECTORY + 'upload\\' + os.path.basename(file_item2.filename)
+    # check and make sure this file doesn't exist already
+    if os.path.isfile(csv_file):
+        csv_file = ROOT_DIRECTORY + 'upload\\' + random_number_string + '-' + os.path.basename(file_item2.filename)
     # NOTE: on brahm.ca read/write permissions have to be set for folders via admin.brahm.ca control panel
     open(csv_file, 'wb').write(file_item2.file.read())
 else:
@@ -43,9 +53,13 @@ else:
 
 
 #test if a valid filename was given - if not, add to error message.
-if filename_for_url == "" or filename_for_url[4:].lower() != ".nes":
+if filename_for_url == "" or filename_for_url[-4:].lower() != ".nes":
     message += "<br>There was a problem with the filename you provided - it must end in .nes<br>"
 else:
+    # check and make sure this file doesn't exist already. If so, add in that random number
+    if os.path.isfile(new_file_name):
+        new_file_name = ROOT_DIRECTORY + 'upload\\' + random_number_string + '-' + str(file_item3.value)
+        filename_for_url = random_number_string + '-' + str(file_item3.value)
     # patch the uploaded 1990 file with the latest patchfile
     modify_1990_file(rbi3_1990_file, ROOT_DIRECTORY + 'data_files/2013patchfile.pch',
                      new_file_name)
@@ -72,9 +86,26 @@ if message == "":
 # to do: make the output page prettier
 print """\
 Content-Type: text/html\n
-<html><body>
+<html>
+    <body>
+    <head>
+        <title>RibEye3 Modifier - Create Gamefile</title>
+            <link href="static/glike.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <div id="header">
+        <h1><a href="index.htm">RibEye3 Modifier</a></h1>
+        <ul class="toolbar">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="create.html">Create RBI 3 Gamefile</a></li>
+            <li><a href="about.html" >About Project</a></li>
+        </ul>
+    </div>
+    <div id="bodycontent">
    <p>%s</p>
-</body></html>
+    </div>
+    </body>
+</html>
 """ % (message,)
 
 # sleep for a period of time (5 minutes) and delete the newly created file
