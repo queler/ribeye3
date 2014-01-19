@@ -1,7 +1,7 @@
 # web values
 # ROOT_DIRECTORY - set to an empty string when running on a local machine.
 # May also have to go around and switch to back/forward slashes depending on run environment :'(
-ROOT_DIRECTORY = r'D:\Inetpub\vhosts\brahm.ca\httpdocs\rbi\dev\bntest\\'
+ROOT_DIRECTORY = r'D:\Inetpub\vhosts\brahm.ca\httpdocs\rbi\\'
 
 # Constant address values and sizes
 HEX_BASE = 16

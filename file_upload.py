@@ -79,7 +79,8 @@ os.remove(csv_file)
 # if message is blank so far, the ROM creation was successful, so let's give some good news and serve a download URL
 if message == "":
     message += '<br><br>All done! Your new patched game file can be downloaded here (right-click, Save As):<br>'
-    message += '<a href="http://brahm.ca/rbi/dev/bntest/upload/' + filename_for_url +\
+    # we can't use rbi.ca/upload/file.nes because the domain forwarding is not smart enough.
+    message += '<a href="http://www.brahm.ca/rbi/upload/' + filename_for_url +\
                '" type="application/octet-stream">DOWNLOAD</a><br>'
     message += '<b>This file will be deleted from the server in 5 minutes</b>.'
 
