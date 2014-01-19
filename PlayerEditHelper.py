@@ -127,6 +127,19 @@ class PlayerEditHelper():
         """
         return TeamsData().values[str(team_id)].team_text
 
+    def get_rom_year(self, data):
+        """
+        @return: return "base year" of the ROM, as two integers (0-9, 0-9)
+        two integers will make writing the reverse function much easier
+        """
+        # length for get_substring_nonplayer is 4 since we're looking for 2 hex pairs
+        hex_digit_1 = PlayerEditHelper().get_substring_nonplayer(data, BASE_YEAR_P1_A, 2)
+        hex_digit_2 = PlayerEditHelper().get_substring_nonplayer(data, BASE_YEAR_P1_A + 2, 2)
+        # get the integer representations based on the hex
+        digit_1 = YEAR_LOOKUP_INT[YEAR_LOOKUP_HEX.index(hex_digit_1)]
+        digit_2 = YEAR_LOOKUP_INT[YEAR_LOOKUP_HEX.index(hex_digit_2)]
+        return digit_1, digit_2
+
     def get_team_uniform_colours(self,data,team_id):
         """
         @param team_id: the team id of a team

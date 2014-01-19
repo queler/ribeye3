@@ -7,6 +7,7 @@
 from PlayersData import *
 from Validator import *
 import binascii
+import re
 game_file = ""      # see comments on this var in __init__
 
 class PlayerEditor():
@@ -31,7 +32,8 @@ class PlayerEditor():
         """
         @return: list of all Pitchers and Batters
         """
-        return self.display_batters() + self.display_pitchers() + self.display_team_params()
+        return self.display_batters() + self.display_pitchers() + self.display_team_params() \
+               + self.display_rom_base_year()
 
     def display_pitchers(self):
         """
@@ -96,6 +98,17 @@ class PlayerEditor():
             i += 1
         return data
 
+    def display_rom_base_year(self):
+        """
+        @return: a single two-digit value (00-99) for the "base" year that is displayed in the ROM
+        re.sub takes out a pair of parenthesis from the get_rom_year return string.
+        """
+        data = ":(ROM_year) Digit 1 (0-9), Digit 2 (0-9)\n"
+        data += FileProcessor().convert_csv(
+            re.sub('[(\')]', '', str(PlayerEditHelper().get_rom_year(self.data))) + "\n"
+        )
+        return data
+
     def write_file(self):
         FileProcessor().write_output(self.__str__())
 
@@ -118,13 +131,15 @@ class PlayerEditor():
                 read_in = "pitch"
             if ":(team_params)" in line:
                 read_in = "team_params"
+            if ":(ROM_year)" in line:
+                read_in = "rom_year"
 
             if read_in == "bats" and ":(batters)" not in line:
                 # split the .csv line into a small array
                 values = [x.strip() for x in line.split(',')]
 
                 if not is_valid_batter(values):
-                    #TODO write error log
+                    #TO DO write error log
                     for text in is_valid_batter(values):
                         print(text)
                 else:
@@ -146,7 +161,8 @@ class PlayerEditor():
                 # split the .csv line into a small array
                 values = [x.strip() for x in line.split(',')]
                 self.valid_team_from_csv(values)
-                """ TO DO: FIX VALIDATION LATER
+                # TODO: FIX VALIDATION LATER
+                """
                 if not is_valid_team(values):
                     for text in is_valid_team(values):
                         print(text)
@@ -155,15 +171,20 @@ class PlayerEditor():
                     self.valid_team_from_csv(values)
                 """
 
+            if read_in == "rom_year" and ":(ROM_year)" not in line:
+                # split the .csv line into a small array - this will be two values, one for each digit
+                values = [x.strip() for x in line.split(',')]
+                self.valid_base_year_from_csv(values)
+                # TODO: VALIDATION
+
         # re-initialize self.players based on new players
         self.players = PlayersData(self.data)
 
-    def valid_team_from_csv(self,values):
+    def valid_team_from_csv(self, values):
         """
         take valid team data and insert it into the ROM file.
         TO DO: clean this up a little bit.
         """
-
         uniform_offset = PlayerEditHelper().get_team_uniform_colour_offset(int(values[0]))
         self.replace_nonplayer_data(str(values[2]).rjust(2,'0') +
                                     str(values[3]).rjust(2,'0') +
@@ -174,6 +195,22 @@ class PlayerEditor():
         int_error = int(round(float(values[5])/100*255,0))
         error_hex = PlayerEditHelper().hex_format(int_error,2)
         self.replace_nonplayer_data(error_hex,error_pct_offset)
+
+    def valid_base_year_from_csv(self, values):
+        """
+        There are a few places in the ROM where we have to update the year.
+        """
+        hex_digit_1 = YEAR_LOOKUP_HEX[(YEAR_LOOKUP_INT.index(values[0]))]
+        hex_digit_2 = YEAR_LOOKUP_HEX[(YEAR_LOOKUP_INT.index(values[1]))]
+        # replace P1 base year in two locations
+        self.replace_nonplayer_data(hex_digit_1 + hex_digit_2, BASE_YEAR_P1_A)
+        self.replace_nonplayer_data(hex_digit_1 + hex_digit_2, BASE_YEAR_P1_B)
+        # replace P2 base year in two locations
+        self.replace_nonplayer_data(hex_digit_1 + hex_digit_2, BASE_YEAR_P2_A)
+        self.replace_nonplayer_data(hex_digit_1 + hex_digit_2, BASE_YEAR_P2_B)
+        # replace "second line" year in two locations (one digit per location)
+        self.replace_nonplayer_data(hex_digit_1, BASE_YEAR_CHAR_1)
+        self.replace_nonplayer_data(hex_digit_2, BASE_YEAR_CHAR_2)
 
     def valid_pitcher_from_csv(self, values):
         # check for what teamID and decide what offset to use

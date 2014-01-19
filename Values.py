@@ -32,6 +32,18 @@ ERA_DIGITS12_E1 = int('19E57',16)*2
 ERA_DIGIT3_S1 = int('19F48',16)*2
 ERA_DIGIT3_E1 = int('19FAF',16)*2
 
+# offsets for base years in the file - ie, 90 in original, 05 in AndyB mod, 13 in our mod
+# these years appear in the first line of the team select screen
+BASE_YEAR_P1_A = int('986E',16)*2  # 2 bytes
+BASE_YEAR_P1_B = int('98CB',16)*2  # 2 bytes
+BASE_YEAR_P2_A = int('987E',16)*2  # 2 bytes
+BASE_YEAR_P2_B = int('98D0',16)*2  # 2 bytes
+# these years appear in the second line of the team select screen - when scrolling through archive teams.
+BASE_YEAR_CHAR_1 = int('1482A',16)*2 # "9" in original - 1 byte
+BASE_YEAR_CHAR_2 = int('14830',16)*2 # "0" in original - 1 byte. Increments mathematically.
+# these are the arrays for year lookups
+YEAR_LOOKUP_HEX = ["18", "19", "1A", "1B", "1C", "1D", "1E", "1F", "20", "21"]
+YEAR_LOOKUP_INT = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 # Validation for Team, Pitcher, and Batters
 
