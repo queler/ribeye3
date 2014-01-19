@@ -2,11 +2,12 @@
 # Chet Collins
 # November 2013
 
+from Values import *
 
 class PlayerNames(dict):
     """ Two way map to relate alphanumeric characters and hex values
     """
-    filename = "data_files/player_name_map.txt"
+    filename = ROOT_DIRECTORY + "data_files/player_name_map.txt"
 
     def __init__(self):
         """

@@ -15,11 +15,12 @@ Team Years
 """
 
 from Team import *
+from Values import *
 
 class TeamsData(object):
     """ Contains data parameters for all RBI3 teams
     """
-    filename = "data_files/teams.txt"
+    filename = ROOT_DIRECTORY + "data_files/teams.txt"
     values = {}
 
     def __init__(self):

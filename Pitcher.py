@@ -2,6 +2,7 @@
 # Chet Collins
 # November 2013
 
+from Values import *
 
 class Pitcher(object):
     """  A representation of a Pitcher from RBI3
@@ -50,7 +51,7 @@ class ERA_helper(dict):
     A reverse dictionary-style function is not really required, since the lookup is easy.
     Brahm Neufeld Dec 31 2013
     """
-    filename = "data_files/era_lookup_table.txt"
+    filename = ROOT_DIRECTORY + "data_files/era_lookup_table.txt"
 
     def __init__(self):
         """
