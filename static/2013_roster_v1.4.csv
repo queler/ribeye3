@@ -720,7 +720,7 @@
 60,21,N.Cotts,5,1,1.38,163,179,201,5,7,15,114,142
 60,22,J.Frasor,1,0,2.57,146,176,201,7,5,15,120,137
 60,23,J.Ortiz,14,1,4.23,156,170,192,3,4,15,120,136
-:(team_params)TeamID DONT CHANGE,Initials DONT CHANGE,OutlineCol(00-3F),PantsCol(00-3F),JerseyCol(00-3F),TeamErrorPct(to nearest 0.39)
+:(team_params)TeamID DONT CHANGE,Initials DONT CHANGE,OutlineCol(00-3F),PantsCol(00-3F),JerseyCol(00-3F),TeamErrorPct(0-100)
 31,AT,0F,20,06,4.31
 32,CHC,0F,20,01,4.71
 33,AZ,06,06,20,3.53

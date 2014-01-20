@@ -9,12 +9,15 @@ from PlayerEditor import *
 from Values import *
 from CmdLineSupport import *
 
-game_file = "data_files/rbi2013-1.3.nes"  # should be .nes file
+game_file = "data_files/rbi2013-1.4.nes"  # should be .nes file
 
 def main():
+
+    create_patchfile("data_files/rbi3.nes", game_file)
+
     #run_from_command_line()
 
-    editor = PlayerEditor(game_file)
+    #editor = PlayerEditor(game_file)
 
     # read the csv file
     #editor.import_new_data()
@@ -45,7 +48,7 @@ def main():
     #print(PlayerEditHelper().pitcher_convert(test_pitcher))
 
     # write the output csv file
-    editor.write_file()
+    # editor.write_file()
 
     # write the game file
     #editor.write_game_file()
