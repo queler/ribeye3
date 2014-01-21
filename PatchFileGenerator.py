@@ -5,6 +5,7 @@
 
 import time
 import binascii
+from Values import *
 
 
 # function to compare two strings, print the positions
@@ -80,6 +81,15 @@ def modify_1990_file(original_1990_rom, patchfile_filename, new_file_filename):
             # write dat file
             f.write(binascii.unhexlify(data_1990))
 
+def write_to_web_logfile(message):
+    """
+    Simple logging tool for use on the website
+    Opens a logfile (permissions must be manually set for it on webserver) and writes a message to it.
+    LOGFILE MUST EXIST ON SERVER WITH PERMISSIONS SET.
+    """
+    with open(ROOT_DIRECTORY + "rbi.log", "a") as f:
+        f.write(time.strftime("%Y-%m-%d %H:%M:%S") + " - " + message+"\n")
+        f.close()
 
 def main():
     # Uncomment create_patchfile() whenever we need to create a new "base" patch file from the hacking and cracking

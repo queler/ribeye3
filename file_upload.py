@@ -36,6 +36,7 @@ if file_item1.filename:
     open(rbi3_1990_file, 'wb').write(file_item1.file.read())
 else:
     message += 'No RBI 3 1990 file was uploaded or there was an error.'
+    write_to_web_logfile("It choked on the 1990 .nes file!")
 
 
 # Test if the csv file was uploaded
@@ -50,11 +51,13 @@ if file_item2.filename:
     open(csv_file, 'wb').write(file_item2.file.read())
 else:
     message += 'No csv file was uploaded or there was an error.'
+    write_to_web_logfile("It choked on the .csv file! ")
 
 
 #test if a valid filename was given - if not, add to error message.
 if filename_for_url == "" or filename_for_url[-4:].lower() != ".nes":
     message += "<br>There was a problem with the filename you provided - it must end in .nes<br>"
+    write_to_web_logfile("Bad .nes filename attempt.")
 else:
     # check and make sure this file doesn't exist already. If so, add in that random number
     if os.path.isfile(new_file_name):
@@ -69,6 +72,10 @@ else:
     editor.import_new_data(csv_file)
     # wrap it up and create the new game file.
     editor.write_game_file(new_file_name)
+    # write to logfile that we have great success!
+    write_to_web_logfile("New ROM created! New File:" + filename_for_url +
+                         "\t 1990 File:" + os.path.basename(file_item1.filename) +
+                         "\t .csv File: " + os.path.basename(file_item2.filename))
 
 
 # delete the uploaded files (whether creating the new ROM file was successful or not)
