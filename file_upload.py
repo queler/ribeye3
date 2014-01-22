@@ -89,7 +89,7 @@ if message == "":
     # we can't use rbi.ca/upload/file.nes because the domain forwarding is not smart enough.
     message += '<a href="http://www.brahm.ca/rbi/upload/' + filename_for_url +\
                '" type="application/octet-stream">DOWNLOAD</a><br>'
-    message += '<b>This file will be deleted from the server in 5 minutes</b>.'
+    message += '<b>This file will be deleted from the server within 24 hours</b>.'
 
 # to do: make the output page prettier
 print """\
@@ -118,5 +118,6 @@ Content-Type: text/html\n
 
 # sleep for a period of time (5 minutes) and delete the newly created file
 # is there a better way to do this?
-time.sleep(300)
-os.remove(new_file_name)
+# JAN 22/2014 COMMENTING THIS OUT BECAUSE IT DOESN'T SEEM TO WORK - BN
+#time.sleep(300)
+#os.remove(new_file_name)

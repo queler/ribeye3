@@ -21,21 +21,25 @@
 
         <p>For help on formatting the .csv file, <a href="help.html">visit the help page</a>.</p>
 
-        <p>This is still most definitely a <b>work-in-progress</b>. If you find something that is broken
-        or not behaving as you'd expect, please submit an issue on our
+        <p><b>Tip:</b> The above spreadsheet, without any modification, will generate an end-of-2013 season ROM
+            file. </p>
+
+        <p>This is most definitely a <b>work-in-progress</b>. If you find something that is broken
+        or not behaving as you'd expect, or if you can envision a killer feature, please submit an issue to our
         <a href="https://code.google.com/p/ribeye3-modifier/issues/list">Google Code issue tracker</a>.</p>
 
         <h2>Step 2</h2>
-        <p>Upload a copy of the original 1990 R.B.I. Baseball 3 ROM, along with your modified .csv file. Declare
+        <p>Upload a copy of the original 1990 R.B.I. Baseball 3 ROM, along with your .csv file. Declare
             a filename for your modified version of the game. Hit "Upload" and you should have your ROM in seconds!</p>
 
-        <p>The R.B.I. Baseball 3 ROM you're looking for is about 192 kB. Other files are not going to work. </p>
+        <p><b>Tip:</b>The R.B.I. Baseball 3 ROM you're looking for is about 192 kB. Other files are not going to work.
+         You should be able to find a copy quite quickly on your favourite search engine. </p>
 
         <form enctype="multipart/form-data" action="file_upload.py" method="post">
-            <p>Original 1990 .nes file: <input type="file" name="rbi3_1990_file" /></p>
+            <p>Original RBI3 .nes file: <input type="file" name="rbi3_1990_file" /></p>
             <p>.csv file: <input type="file" name="csv_file" /></p>
-            <p>Filename for your new file (no spaces or funny characters; ending in .nes):
-                <input type="text" name="new_file_name"></p>
+            <p>New filename (no funny characters; ending in .nes):
+                <input type="text" name="new_file_name" value="my_new_rom.nes"></p>
             <p><input type="submit" value="Upload" /></p>
         </form>
     </div>
