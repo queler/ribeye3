@@ -18,12 +18,12 @@ class FileProcessor():
         """
         return ",".join(player.split('\t'))
 
-    def write_output(self,data):
+    def write_output(self, data, filename):
         """
         @param data: text to be written - typically for .csv files
         @return:
         """
-        with open(self.output, "w+") as output_file:
+        with open(filename, "w+") as output_file:
             output_file.write(data)
             output_file.close()
 

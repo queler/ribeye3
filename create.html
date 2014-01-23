@@ -15,7 +15,7 @@
         </ul>
     </div>
     <div id="bodycontent">
-        <h2>Step 1</h2>
+        <h2>New .nes ROM: Step 1</h2>
         <p><a href="static/2013_roster_v1.4.csv" type="text/csv">Download this template .csv file</a> which you can
             use to fully customize your 30-team roster. </p>
 
@@ -28,7 +28,7 @@
         or not behaving as you'd expect, or if you can envision a killer feature, please submit an issue to our
         <a href="https://code.google.com/p/ribeye3-modifier/issues/list">Google Code issue tracker</a>.</p>
 
-        <h2>Step 2</h2>
+        <h2>New .nes ROM: Step 2</h2>
         <p>Upload a copy of the original 1990 R.B.I. Baseball 3 ROM, along with your .csv file. Declare
             a filename for your modified version of the game. Hit "Upload" and you should have your ROM in seconds!</p>
 
@@ -40,6 +40,19 @@
             <p>.csv file: <input type="file" name="csv_file" /></p>
             <p>New filename (no funny characters; ending in .nes):
                 <input type="text" name="new_file_name" value="my_new_rom.nes"></p>
+            <p><input type="submit" value="Upload" /></p>
+        </form>
+
+        <h2>Work Backwards - Generate .csv from .nes file</h2>
+
+        <p>Maybe you're playing someone's excellent R.B.I. Baseball 3 ROM that was generated with our tool, and you'd
+        like to tweak the lineup or adjust some parameters. This tool will accept a .nes file and return to you a
+        .csv file, that you can tweak and feed back into the gamefile generator above. </p>
+
+        <form enctype="multipart/form-data" action="csv_from_nes.py" method="post">
+            <p>.nes file: <input type="file" name="nes_file" /></p>
+            <p>New filename (no funny characters; ending in .nes):
+                <input type="text" name="new_csv_file_name" value="my_new_csv.csv"></p>
             <p><input type="submit" value="Upload" /></p>
         </form>
     </div>

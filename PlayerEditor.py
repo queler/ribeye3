@@ -110,8 +110,8 @@ class PlayerEditor():
         )
         return data
 
-    def write_file(self):
-        FileProcessor().write_output(self.__str__())
+    def write_file(self, file_path):
+        FileProcessor().write_output(self.__str__(), file_path)
 
     def write_game_file(self, filename):
         FileProcessor().write_nes_file(self.data, filename)

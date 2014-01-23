@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import cgi, os, time
+import cgi, os
 import cgitb; cgitb.enable()
 import os.path
 from PlayerEditor import *
@@ -106,6 +106,7 @@ Content-Type: text/html\n
         <ul class="toolbar">
             <li><a href="index.html">Home</a></li>
             <li><a href="create.html">Create RBI 3 Gamefile</a></li>
+            <li><a href="help.html">Gamefile Creation Help</a></li>
             <li><a href="about.html" >About Project</a></li>
         </ul>
     </div>
