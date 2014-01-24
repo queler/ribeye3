@@ -12,11 +12,13 @@ from PatchFileGenerator import *
 from Values import *
 from random import randint
 
-# generate a random number so if a file with an identical name exists on the server, a random number can be appended
+# if a file with an identical name exists on the server, a random number will be appended
 random_number_string = str(randint(0,100000))
 
 form = cgi.FieldStorage()
 message = ""
+nes_file_size_ok = 0
+nes_file_size = 0
 
 # Get filenames here from POST
 file_item_nes = form['nes_file']
@@ -28,8 +30,7 @@ new_csv_file_url_name = str(file_item_csv.value)
 
 # Test if the .nes file was uploaded
 if file_item_nes.filename:
-    # strip leading path from file name to avoid
-    # directory traversal attacks
+    # strip leading path from file name to avoid directory traversal attacks
     nes_file_to_read = ROOT_DIRECTORY + 'upload\\' + os.path.basename(file_item_nes.filename)
     # check and make sure this file doesn't exist already
     if os.path.isfile(nes_file_to_read):
@@ -37,13 +38,22 @@ if file_item_nes.filename:
                            os.path.basename(file_item_nes.filename)
     # NOTE: on brahm.ca read/write permissions have to be set for folders via admin.brahm.ca control panel
     open(nes_file_to_read, 'wb').write(file_item_nes.file.read())
+    # check file size, if it fails then delete the file.
+    nes_file_size = int(os.stat(nes_file_to_read).st_size)
+    if 196000 <= nes_file_size <= 197000:
+        nes_file_size_ok = 1
+    else:
+        os.remove(nes_file_to_read)
+        message += 'File size error - .nes file size must be about 196624 bytes: ' + str(nes_file_size) + '<br>'
+        write_to_web_logfile("Bad .nes file size in .nes-to-.csv conversion: " + str(nes_file_size))
 else:
-    message += 'No RBI 3 .nes file was uploaded or there was an error.'
-    write_to_web_logfile("There was a problem uploading a .nes file to turn into .csv!")
+    message += 'No RBI 3 .nes file was uploaded or there was an error. File size: ' + str(nes_file_size) + '<br>'
+    write_to_web_logfile("There was a problem uploading a .nes file to turn into .csv! File size: " +
+                         str(nes_file_size))
 
 
-#test if a valid filename was given - if not, add to error message.
-if new_csv_file_url_name == "" or new_csv_file_url_name[-4:].lower() != ".csv":
+#test if a valid filename was given - if not, add to error message. - only if the .nes file upload is OK
+if (new_csv_file_url_name == "" or new_csv_file_url_name[-4:].lower() != ".csv") and nes_file_size_ok:
     message += "<br>There was a problem with the filename you provided - it must end in .csv<br>"
     write_to_web_logfile("Bad .csv filename attempt.")
 else:
@@ -55,8 +65,6 @@ else:
     editor = PlayerEditor(nes_file_to_read)
     # now it's as simple as writing the .csv file to the right folder.
     editor.write_file(new_csv_file_name)
-
-
     # write to logfile that we have great success!
     write_to_web_logfile(".csv file successfully created from .nes file:" + new_csv_file_url_name +
                          "\t .nes File: " + os.path.basename(file_item_nes.filename))
@@ -65,9 +73,9 @@ else:
 if message == "":
     message += '<br><br>All done! Your .csv file can be downloaded here (right-click, Save As):<br>'
     # we can't use rbi.ca/upload/file.nes because the domain forwarding is not smart enough.
-    message += '<a href="http://www.brahm.ca/rbi/upload/' + new_csv_file_url_name +\
+    message += '<a href="' + UPLOAD_FOLDER + new_csv_file_url_name +\
                '" type="application/octet-stream">DOWNLOAD</a><br>'
-    message += '<b>This file will be deleted from the server within 24 hours</b>.'
+    message += '<b>This file will be deleted from the server within 24 hours</b>.<br>'
 
 # to do: make the output page prettier
 print """\
