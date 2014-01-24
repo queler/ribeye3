@@ -44,10 +44,10 @@ if file_item_nes.filename:
         nes_file_size_ok = 1
     else:
         os.remove(nes_file_to_read)
-        message += 'File size error - .nes file size must be about 196624 bytes: ' + str(nes_file_size) + '<br>'
+        message += 'File size error - .nes file size must be about 196624 bytes: ' + str(nes_file_size) + ' bytes<br>'
         write_to_web_logfile("Bad .nes file size in .nes-to-.csv conversion: " + str(nes_file_size))
 else:
-    message += 'No RBI 3 .nes file was uploaded or there was an error. File size: ' + str(nes_file_size) + '<br>'
+    message += 'No RBI 3 .nes file was uploaded or there was an error. File size: ' + str(nes_file_size) + ' bytes<br>'
     write_to_web_logfile("There was a problem uploading a .nes file to turn into .csv! File size: " +
                          str(nes_file_size))
 

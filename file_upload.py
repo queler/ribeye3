@@ -42,7 +42,7 @@ if uploaded_rbi3_1990_file.filename:
         nes_file_size_ok = 1
     else:  # delete the uploaded file and log some errors.
         os.remove(rbi3_1990_file)
-        message += 'File size error - .nes file must be about 196624 bytes: ' + str(nes_file_size) + '<br>'
+        message += 'File size error - .nes file must be about 196624 bytes: ' + str(nes_file_size) + ' bytes <br>'
         write_to_web_logfile("Bad .nes file size in new ROM creation: " + str(nes_file_size))
 else:
     message += 'No RBI 3 1990 file was uploaded or there was an unknown error. File size: ' + str(nes_file_size) + '<br>'
@@ -59,6 +59,16 @@ if uploaded_csv_file.filename and nes_file_size_ok:
                    os.path.basename(uploaded_csv_file.filename)
     # NOTE: on brahm.ca read/write permissions have to be set for folders via admin.brahm.ca control panel
     open(csv_file, 'wb').write(uploaded_csv_file.file.read())
+    # check that .csv filesize won't crush server
+    csv_file_size = int(os.stat(csv_file).st_size)
+    if csv_file_size > 200000:
+        os.remove(csv_file)
+        # if the rbi3 1990 file is still on the server, delete it
+        if os.path.isfile(rbi3_1990_file):
+            os.remove(rbi3_1990_file)
+        message += 'File size error - .csv file larger than 200 kB: ' + str(csv_file_size) + ' bytes<br>'
+        write_to_web_logfile("Gigantic .csv file size detected: " + str(csv_file_size))
+
 else:
     message += 'No csv file was uploaded or there was an error.<br>'
     write_to_web_logfile("It choked on the .csv file! ")
