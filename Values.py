@@ -1,9 +1,9 @@
 # web values
 # ROOT_DIRECTORY - set to an empty string when running on a local machine.
 # May also have to go around and switch to back/forward slashes depending on run environment :'(
-ROOT_DIRECTORY = r'D:\Inetpub\vhosts\brahm.ca\httpdocs\rbi\dev\bntest\\'
+ROOT_DIRECTORY = r'D:\Inetpub\vhosts\brahm.ca\httpdocs\rbi\\'
 # for file_upload.py and csv_from_nes.py
-UPLOAD_FOLDER = "http://www.brahm.ca/rbi/dev/bntest/upload/"
+UPLOAD_FOLDER = "http://www.brahm.ca/rbi/upload/"
 
 # Constant address values and sizes
 HEX_BASE = 16
