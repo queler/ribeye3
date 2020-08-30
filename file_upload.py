@@ -21,7 +21,7 @@ uploaded_rbi3_1990_file = form['rbi3_1990_file']
 uploaded_csv_file = form['csv_file']
 supplied_new_file_name = form['new_file_name']
 # new modified game filename with full directory
-new_file_name = ROOT_DIRECTORY + 'upload\\' + str(supplied_new_file_name.value)
+new_file_name = ROOT_DIRECTORY + 'upload'+os.sep + str(supplied_new_file_name.value)
 # just the filename so it can be inserted into a download URL
 filename_for_url = str(supplied_new_file_name.value)
 
@@ -29,10 +29,10 @@ filename_for_url = str(supplied_new_file_name.value)
 # Test if the original game file was uploaded
 if uploaded_rbi3_1990_file.filename:
     # strip leading path from file name to avoid directory traversal attacks
-    rbi3_1990_file = ROOT_DIRECTORY + 'upload\\' + os.path.basename(uploaded_rbi3_1990_file.filename)
+    rbi3_1990_file = ROOT_DIRECTORY + 'upload'+os.sep + os.path.basename(uploaded_rbi3_1990_file.filename)
     # check and make sure this file doesn't exist already
     if os.path.isfile(rbi3_1990_file):
-        rbi3_1990_file = ROOT_DIRECTORY + 'upload\\' + random_number_string + '-' + \
+        rbi3_1990_file = ROOT_DIRECTORY + 'upload'+os.sep + random_number_string + '-' + \
                          os.path.basename(uploaded_rbi3_1990_file.filename)
     # NOTE: on brahm.ca read/write permissions have to be set for folders via admin.brahm.ca control panel
     open(rbi3_1990_file, 'wb').write(uploaded_rbi3_1990_file.file.read())
@@ -52,10 +52,10 @@ else:
 # Test if the csv file was uploaded - only if the .nes file upload is OK
 if uploaded_csv_file.filename and nes_file_size_ok:
     # strip leading path from file name to avoid directory traversal attacks
-    csv_file = ROOT_DIRECTORY + 'upload\\' + os.path.basename(uploaded_csv_file.filename)
+    csv_file = ROOT_DIRECTORY + 'upload'+os.sep + os.path.basename(uploaded_csv_file.filename)
     # check and make sure this file doesn't exist already
     if os.path.isfile(csv_file):
-        csv_file = ROOT_DIRECTORY + 'upload\\' + random_number_string + '-' + \
+        csv_file = ROOT_DIRECTORY + 'upload'+os.sep + random_number_string + '-' + \
                    os.path.basename(uploaded_csv_file.filename)
     # NOTE: on brahm.ca read/write permissions have to be set for folders via admin.brahm.ca control panel
     open(csv_file, 'wb').write(uploaded_csv_file.file.read())
@@ -81,7 +81,7 @@ if filename_for_url == "" or filename_for_url[-4:].lower() != ".nes":
 elif message == "":
     # check and make sure this file doesn't exist already. If so, add in that random number
     if os.path.isfile(new_file_name):
-        new_file_name = ROOT_DIRECTORY + 'upload\\' + random_number_string + '-' + str(supplied_new_file_name.value)
+        new_file_name = ROOT_DIRECTORY + 'upload'+os.sep + random_number_string + '-' + str(supplied_new_file_name.value)
         filename_for_url = random_number_string + '-' + str(supplied_new_file_name.value)
     # patch the uploaded 1990 file with the latest patchfile
     modify_1990_file(rbi3_1990_file, ROOT_DIRECTORY + 'data_files/2013patchfile.pch',

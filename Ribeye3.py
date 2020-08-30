@@ -13,9 +13,9 @@ game_file = "data_files/rbi2013-1.4.nes"  # should be .nes file
 
 def main():
 
-    create_patchfile("data_files/rbi3.nes", game_file)
+    #create_patchfile("data_files/rbi3.nes", game_file)
 
-    #run_from_command_line()
+    run_from_command_line()
 
     #editor = PlayerEditor(game_file)
 

@@ -11,9 +11,8 @@ to do:
 
 from PlayerEditor import *
 from PatchFileGenerator import *
-
+import os
 def run_from_command_line():
-
     print("Hello!\n\n"
           "Welcome to the RibEye3-Modifier Program.\n\n"
           "This program will patch the original 1990 R.B.I. Baseball 3 ROM \nto a new 30-team version!\n"
@@ -36,16 +35,16 @@ def run_from_command_line():
         new_filename = raw_input("What's it going to be? ")
 
         print("Patching 1990 ROM to modified 30-team version...\n")
-        modify_1990_file("data_files\\"+original_1990_rom, "data_files\\2013patchfile.pch", "data_files\\" + new_filename)
+        modify_1990_file(os.path.join("data_files",original_1990_rom), os.path.join("data_files","2013patchfile.pch"), os.path.join("data_files", new_filename))
 
         print("Opening patched ROM as new editor object...\n")
-        editor = PlayerEditor("data_files\\"+new_filename)
+        editor = PlayerEditor("data_files"+os.sep+new_filename)
 
         print("Importing data into ROM from .csv file...\n")
-        editor.import_new_data("data_files\\" + csv_file)
+        editor.import_new_data("data_files"+os.sep + csv_file)
 
         print("Writing to new ROM file...\n")
-        editor.write_game_file("data_files\\"+new_filename)
+        editor.write_game_file("data_files"+os.sep+new_filename)
 
         print("All done! Your ROM file is ready to use. ")
 

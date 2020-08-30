@@ -24,17 +24,17 @@ nes_file_size = 0
 file_item_nes = form['nes_file']
 file_item_csv = form['new_csv_file_name']
 # new modified csv filename with full directory
-new_csv_file_name = ROOT_DIRECTORY + 'upload\\' + str(file_item_csv.value)
+new_csv_file_name = os.path.join(ROOT_DIRECTORY,'upload' , str(file_item_csv.value))
 # just the filename so it can be inserted into a download URL
 new_csv_file_url_name = str(file_item_csv.value)
 
 # Test if the .nes file was uploaded
 if file_item_nes.filename:
     # strip leading path from file name to avoid directory traversal attacks
-    nes_file_to_read = ROOT_DIRECTORY + 'upload\\' + os.path.basename(file_item_nes.filename)
+    nes_file_to_read = ROOT_DIRECTORY + 'upload'+os.sep + os.path.basename(file_item_nes.filename)
     # check and make sure this file doesn't exist already
     if os.path.isfile(nes_file_to_read):
-        nes_file_to_read = ROOT_DIRECTORY + 'upload\\' + random_number_string + '-' + \
+        nes_file_to_read = ROOT_DIRECTORY + 'upload'+os.sep + random_number_string + '-' + \
                            os.path.basename(file_item_nes.filename)
     # NOTE: on brahm.ca read/write permissions have to be set for folders via admin.brahm.ca control panel
     open(nes_file_to_read, 'wb').write(file_item_nes.file.read())
@@ -59,7 +59,7 @@ if (new_csv_file_url_name == "" or new_csv_file_url_name[-4:].lower() != ".csv")
 else:
     # check and make sure this file doesn't exist already. If so, add in that random number
     if os.path.isfile(new_csv_file_name):
-        new_csv_file_name = ROOT_DIRECTORY + 'upload\\' + random_number_string + '-' + str(file_item_csv.value)
+        new_csv_file_name = ROOT_DIRECTORY + 'upload'+os.sep + random_number_string + '-' + str(file_item_csv.value)
         new_csv_file_url_name = random_number_string + '-' + str(file_item_csv.value)
     # open the .nes file as a new editor object
     editor = PlayerEditor(nes_file_to_read)
